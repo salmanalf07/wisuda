@@ -1,0 +1,155 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Mail\antriansmail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use App\Models\AntrianModels;
+use PDF;
+
+class AntrianController extends Controller
+{
+    public function index()
+    {
+        $antrian = DB::table('antrian')
+            ->selectRaw('count(*) as total')
+            ->where('status', 'open')
+            ->first();
+
+        $antrian_1 = DB::table('antrian')
+            ->where('status', 'open')
+            ->first();
+
+        if ($antrian_1 != null) {
+            $antrian_one = $antrian_1->jenis . sprintf('%03d', $antrian_1->no_urut);
+            $antrian_oneid = $antrian_1->id;
+
+            $antrian_2 = AntrianModels::where('status', 'open')->skip(1)->take(1)->first();
+            if ($antrian_2 === null) {
+                $antrian_two = 0;
+            } else {
+                $antrian_two = $antrian_2->jenis . sprintf('%03d', $antrian_2->no_urut);
+            }
+        } else {
+            $antrian_one = 0;
+            $antrian_two = 0;
+            $antrian_oneid = 0;
+        }
+
+        return view('v_antrian', [
+            'antrian' => $antrian,
+            'antrian_one' => $antrian_one,
+            'antrian_oneid' => $antrian_oneid,
+            'antrian_two' => $antrian_two
+        ]);
+    }
+
+    public function dashboard()
+    {
+        $antrian = DB::table('antrian')
+            ->selectRaw('count(*) as total')
+            ->where('status', 'open')
+            ->first();
+
+        $antrian_1 = DB::table('antrian')
+            ->where('status', 'open')
+            ->first();
+
+        if ($antrian_1 != null) {
+            $antrian_one = $antrian_1->jenis . sprintf('%03d', $antrian_1->no_urut);
+            $get = DB::table('mahasiswa')
+                ->where('nim', $antrian_1->nim)
+                ->first();
+            $nam_antrian = $get->nama_mahasiswa . ' - ' . $get->nim;
+
+            $antrian_2 = AntrianModels::where('status', 'open')->skip(1)->take(1)->first();
+            if ($antrian_2 === null) {
+                $antrian_two = 0;
+            } else {
+                $antrian_two = $antrian_2->jenis . sprintf('%03d', $antrian_2->no_urut);
+            }
+        } else {
+            $nam_antrian = '';
+            $antrian_one = 0;
+            $antrian_two = 0;
+        }
+
+        return view('v_dashboard', [
+            'antrian' => $antrian,
+            'antrian_one' => $antrian_one,
+            'nam_antrian' => $nam_antrian,
+            'antrian_two' => $antrian_two
+        ]);
+    }
+
+    public function search_antrian(Request $request)
+    {
+        //$str = str_replace('00', '', $request->antr_one);
+        //masalah, harus ambil 2 dijit terakhir
+        //$string1 = substr($str, 0, 1);
+        //$string2 = substr($str, 1);
+        $get = DB::table('antrian')
+            ->select('nim', 'id AS id_antrian')
+            //->where('no_urut', $string2)
+            ->where('id', $request->antr_one)
+            ->first();
+        $get_m = DB::table('mahasiswa')
+            ->select('nim', 'id', 'jurusan', 'nama_mahasiswa')
+            ->where('nim', $get->nim)
+            ->first();
+        //->first() = hanya menampilkan satu saja dari hasil query
+        //->get() = returnnya berbentuk array atau harus banyak data
+        return response()->json(array($get_m, $get));
+    }
+
+    public function store_antr(Request $request)
+    {
+        //foto
+        $cover = $request->file('image');
+        $filename = $request->nim_r . '-' . $request->id . '.jpeg';
+        //$extension = $cover->getClientOriginalExtension();
+        Storage::disk('public')->put($filename,  File::get($cover));
+        //canvas
+        $canvas = $request->file('ttd');
+        $filenames = $request->nim_r . '-' . $request->id . '- canvas' . '.png';
+        //$extension = $canvas->getClientOriginalExtension();
+        Storage::disk('ttd')->put($filenames,  File::get($canvas));
+
+        $save = AntrianModels::findOrFail($request->id);
+        $save->id = $request->id;
+        $save->bukti_pic = $filename;
+        $save->ttd = $filenames;
+        $save->keterangan = $request->keterangan;
+        $save->status = "close";
+        $save->keterangan = implode(",", $request->berkas);
+        $save->save();
+
+        return response()->json($save);
+    }
+
+    public function cetak_page($id)
+    {
+        $get = DB::table('antrian')
+            ->where('id', $id)
+            ->first();
+        $get_1 = DB::table('mahasiswa')
+            ->where('nim', $get->nim)
+            ->first();
+        $date = date("d F Y H:i", strtotime($get->updated_at));
+        $berkas = DB::table('berkas')
+            ->whereIn('id', str_split($get->keterangan))
+            ->get();
+        return view('v_wacom', [
+            'id' => $get_1->id,
+            'foto' => $get->bukti_pic,
+            'nim' => $get->nim,
+            'nama' => $get_1->nama_mahasiswa,
+            'ttd' => $get->ttd,
+            'tanggal' => $date,
+            'berkas' => $berkas,
+        ]);
+    }
+}
