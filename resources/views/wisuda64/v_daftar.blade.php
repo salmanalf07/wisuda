@@ -67,10 +67,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>NIM</th>
-                  <th>NAMA</th>
-                  <th>JURUSAN</th>
-                  <th>AKSI</th>
+                  <th><b>NIM</b></th>
+                  <th><b>NAMA</b></th>
+                  <th><b>JURUSAN</b></th>
+                  <th><b>AKSI</b></th>
                 </tr>
               </thead>
               <tbody>
@@ -91,7 +91,7 @@
           <div class="modal-dialog" id="dialog">
             <div class="modal-content">
               <div class="card-header">
-                BUKTI PENGAMBIL IJAZAH
+                BUKTI PENGAMBIL BERKAS KELULUSAN
               </div>
               <div class="card-body">
                 <form method="post" role="form" id="form-add" enctype="multipart/form-data">

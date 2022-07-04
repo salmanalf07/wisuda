@@ -29,6 +29,9 @@
 .table tbody tr:last-child {
   border: 0;
 }
+.bold{
+  font-weight: bold;
+}
 .table td, .table th {
   text-align: center;
 }
