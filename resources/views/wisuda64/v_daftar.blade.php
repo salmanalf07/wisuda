@@ -162,13 +162,13 @@
                   <p id="hasil"></p>
                 </div>
 
-                <div class="card-footer">
+                <!-- <div class="card-footer">
                   <button onclick="window.location.href=window.location.href" class="btn btn-danger" style="padding: 5px 30px;">
                     Close
                   </button>
                   <a id="linkCetak" href="" class="btn btn-primary" style="padding: 5px 20px;">CETAK PDF</a>
 
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -266,9 +266,9 @@
           //   '_blank' // <- This is what makes it open in a new window.
           // );
 
-          // setInterval(() => {
-          //   window.location.href = "/";
-          // }, 500);
+          setInterval(() => {
+            window.location.href = "/wisuda64";
+          }, 500);
 
         },
         error: function() {
@@ -284,8 +284,8 @@
     }
 
     Webcam.set({
-      width: 512,
-      height: 384,
+      width: 342,
+      height: 256,
       dest_width: 1024,
       dest_height: 768,
       image_format: 'jpeg',
@@ -310,7 +310,7 @@
       Webcam.snap(function(data_uri) {
         // display results in page
         document.getElementById('my_camera').innerHTML =
-          '<img name="images" style="width: 512px;heigth:384px" id="img" src="' + data_uri + '"/>';
+          '<img name="images" style="width: 342px;heigth:256px" id="img" src="' + data_uri + '"/>';
       });
     }
   </script>

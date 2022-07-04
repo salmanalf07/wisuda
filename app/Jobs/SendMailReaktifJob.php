@@ -74,9 +74,9 @@ class SendMailReaktifJob implements ShouldQueue
 
         // check for failures
         if (!Mail::failures()) {
-            // $postt = antrian64::find($this->data->id);
-            // $postt->status = "close";
-            // $postt->save();
+            $postt = antrian64::find($this->data->id);
+            $postt->sender_at = date("Y-m-d H:i:s", strtotime('now'));
+            $postt->save();
         }
     }
 }
