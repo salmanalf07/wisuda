@@ -57,7 +57,7 @@ class SendMailReaktifJob implements ShouldQueue
             ->whereIn('id', str_split($pegawai->keterangan))
             ->get();
 
-        $date = date("d F Y H:i", strtotime($pegawai->updated_at));
+        $date = date("d m Y H:i", strtotime($pegawai->updated_at));
 
         $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa]);
 
@@ -75,9 +75,9 @@ class SendMailReaktifJob implements ShouldQueue
 
         // check for failures
         if (!Mail::failures()) {
-            $postt = antrian64::find($this->data->id);
-            $postt->status = "close";
-            $postt->save();
+            // $postt = antrian64::find($this->data->id);
+            // $postt->status = "close";
+            // $postt->save();
         }
     }
 }

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="assets/css/login.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="/assets/googlefontapis/css/roboto.css">
   <link rel="stylesheet" href="/assets/googlefontapis/css/material-icons.css">
   <!-- CSS Files -->
@@ -59,6 +60,30 @@
               </div>
               <button class="btn" onclick="log2()">Submit</button>
             </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="card card-chart">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>NIM</th>
+                  <th>NAMA</th>
+                  <th>JURUSAN</th>
+                  <th>AKSI</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($mahasiswa as $wisuda)
+                <tr>
+                  <td>{{$wisuda->nim}}</td>
+                  <td>{{$wisuda->nama_mahasiswa}}</td>
+                  <td>{{$wisuda->jurusan}}</td>
+                  <td><button style="margin: 0px;height:25px;padding-top:5px" class="btn" id="but_wid" data-id="{{$wisuda->antrian[0]->nim}}">Action</button></td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -290,6 +315,12 @@
     }
   </script>
   <script>
+    $(document).on('click', '#but_wid', function(e) {
+      e.preventDefault();
+      var uid = $(this).data('id');
+      search(uid);
+    });
+
     function search(dataa) {
 
       $.ajax({

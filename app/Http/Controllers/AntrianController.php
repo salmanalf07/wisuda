@@ -137,21 +137,32 @@ class AntrianController extends Controller
         $get = DB::table('mahasiswa64')
             ->where('nim', $request->nim_r)
             ->first();
+        $get_id = DB::table('antrian64')
+            ->where('nim', $request->nim_r)
+            ->first();
         //foto
         $cover = $request->file('image');
         $filename = $request->nim_r . '-' . $get->id . '.jpeg';
         //$extension = $cover->getClientOriginalExtension();
         Storage::disk('public64')->put($filename,  File::get($cover));
 
-        $save = new antrian64();
+        $save = antrian64::findOrFail($get_id->id);
+        // $save->id = $request->id;
         $save->nim = $request->nim_r;
         $save->bukti_pic = $filename;
-        $save->keterangan = $request->keterangan;
+        $save->status = "close";
         $save->keterangan = implode(",", $request->berkas);
         $save->save();
 
-        $data = antrian64::find($save->id);
-        SendMailReaktifJob::dispatch($data);
+        // $save = new antrian64();
+        // $save->nim = $request->nim_r;
+        // $save->bukti_pic = $filename;
+        // $save->keterangan = $request->keterangan;
+        // $save->keterangan = implode(",", $request->berkas);
+        // $save->save();
+
+        // $data = antrian64::find($get_id->id);
+        SendMailReaktifJob::dispatch($get_id);
 
         return response()->json($save);
     }
@@ -178,7 +189,7 @@ class AntrianController extends Controller
             ->whereIn('id', str_split($pegawai->keterangan))
             ->get();
 
-        $date = date("d F Y H:i", strtotime($pegawai->updated_at));
+        $date = date("d m Y H:i", strtotime($pegawai->updated_at));
 
         $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa]);
         return $pdf->stream('laporan-pegawai-pdf');

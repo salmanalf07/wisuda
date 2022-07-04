@@ -9,10 +9,12 @@
 </head>
 
 <body>
-    <h1>{{ $subject }}</h1>
-    <p>{{ $body }}</p>
-
-    <p>Thank you</p>
+    <p>Dear Binusian,</p>
+    <p>Congratulations on your graduation! We are so thrilled to have you here in the graduation ceremony. We would like to wish you all the very best for your future endeavour. 😊</p>
+    <p>By receiving this email, you have acknowledged that you have received the complete graduation documents as stated in the attachment receipt letter. Please let us know as soon as possible if you have any questions or concerns.</p>
+    <p>May your future days be as bright as the sun and don't forget BINUS University as your second home. Best of luck!!</p>
+    <p>With love,</p>
+    <p>Students Services Center</p>
 </body>
 
 </html>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\AntrianController;
+use App\Models\mahasiswa64;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -42,7 +43,13 @@ Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
 Route::get('/wisuda64', function () {
     $get = DB::table('berkas')
         ->get();
-    return view('wisuda64/v_daftar', ['data' => $get]);
+    $mahasiswa = mahasiswa64::with('antrian')
+        ->whereHas('antrian', function ($query) {
+            $query->where('status', '=', 'open');
+        })
+        ->paginate(5);
+    return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
+    //return $mahasiswa;
 });
 Route::post('/search64', [DaftarController::class, 'search_maha64']);
 Route::post('/store_antr64', [AntrianController::class, 'store_antr64']);

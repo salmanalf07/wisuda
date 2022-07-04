@@ -13,10 +13,6 @@
 
             }
 
-            .tanter {
-                /* border: 1px solid black; */
-            }
-
             .footer {
                 margin: 1px;
                 text-align: center;
@@ -46,7 +42,7 @@
                 text-align: center;
                 margin: 0 auto;
                 font-weight: bold;
-                margin-bottom: 20px;
+                /* margin-bottom: 20px; */
                 line-height: 1.5em;
 
             }
@@ -83,7 +79,7 @@
             }
 
             .div-footer {
-                margin-top: 15px;
+                margin-top: 30px;
                 width: 50%;
                 float: right
             }
@@ -100,7 +96,7 @@
             font-size: 14pt;
             text-align: center;
             line-height: 1.5em;
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         .tengah {
@@ -111,6 +107,7 @@
         }
 
         .footer {
+            font-size: 10pt;
             margin: 0px;
             text-align: center;
         }
@@ -126,7 +123,7 @@
         }
 
         td {
-            font-size: 12pt;
+            font-size: 10pt;
             vertical-align: top;
 
         }
@@ -134,7 +131,8 @@
         .p2 {
             padding-top: 10px;
             padding-left: 15px;
-
+            font-size: 10pt;
+            text-align: justify;
         }
 
         .ttd {
@@ -160,7 +158,7 @@
         }
 
         .div-footer {
-            margin-top: 25px;
+            margin-top: 30px;
             width: 50%;
             float: right;
 
@@ -190,16 +188,46 @@
 </head>
 
 <body>
+    <?php
+    if (!function_exists('getRomawi')) {
+        function getRomawi($tanggal)
+        {
+            $bulan = array(
+                1 =>   'Januari',
+                'Februari',
+                'Maret',
+                'April',
+                'Mei',
+                'Juni',
+                'Juli',
+                'Agustus',
+                'September',
+                'Oktober',
+                'November',
+                'Desember'
+            );
+
+            $pecahkan = explode(' ', $tanggal);
+
+            return $pecahkan[0] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[2] . ' ' . $pecahkan[3];
+        }
+    }
+
+    ?>
+
     <div class="timpa">
         <img class="tanter" src="{{$pic}}" />
         <div class="tengah">
-            <P class="bukti">BUKTI TANDA TERIMA DOKUMEN KELULUSAN PERIODE WISUDA 64</P>
+            <P class="bukti">TANDA TERIMA</P>
+            <P class="bukti">DOKUMEN BERKAS KELULUSAN</P>
+            <p class="bukti">PERIODE WISUDA 65</p>
+            <br>
             <div class="foto">
                 <center>
                     <img src="{{$picc}}" height="140px" style="display:block;" alt="">
                 </center>
             </div>
-            <p class="p2">Saya, {{$nama}}, NIM: {{$data->nim}} menyatakan telah menerima dengan lengkap dokumen kelulusan yang terdiri dari: </p>
+            <p class="p2">Saya, {{$nama}}, NIM: {{$data->nim}} dengan ini menyatakan bahwa saya telah menerima dengan lengkap dokumen berkas kelulusan yang terdiri dari:</p>
             <div>
                 <table>
 
@@ -211,9 +239,9 @@
                     @endforeach
                 </table>
             </div>
+            <p class="p2">Adapun setelah dokumen berkas kelulusan ini saya terima maka segala kerusakan atau kehilangan yang terjadi pada dokumen berkas kelulusan ini sepenuhnya merupakan tanggung jawab saya dan saya menyadari bahwa pihak Universitas Bina Nusantara tidak dapat melakukan pencetakan ulang untuk dokumen berkas kelulusan yang hilang atau rusak tersebut.</p>
             <div class="div-footer">
-                <p class="footer">Bekasi, {{$tanggal}} </p>
-                <div class="ttd"></div>
+                <p class="footer">Jakarta,<?php echo getRomawi($tanggal) ?></p>
                 <p class="footer">{{$nama}}</p>
             </div>
         </div>

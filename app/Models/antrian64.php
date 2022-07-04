@@ -18,4 +18,9 @@ class antrian64 extends Model
         'status',
         'keterangan'
     ];
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(mahasiswa64::class, 'nim', 'nim');
+    }
 }
