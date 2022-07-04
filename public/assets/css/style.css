@@ -11,6 +11,7 @@
 }
 .table * {
   position: relative;
+  font-family: "calibri"
 }
 .table td, .table th {
   padding-left: 8px;
@@ -20,7 +21,7 @@
   background: #c1a1d3;
   font-size: 16px;
   text-align: center;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 .table tbody tr {
   height: 48px;

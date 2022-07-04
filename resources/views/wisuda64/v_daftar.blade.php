@@ -67,10 +67,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th><b>NIM</b></th>
-                  <th><b>NAMA</b></th>
-                  <th><b>JURUSAN</b></th>
-                  <th><b>AKSI</b></th>
+                  <th>NIM</th>
+                  <th>NAMA</th>
+                  <th>JURUSAN</th>
+                  <th>AKSI</th>
                 </tr>
               </thead>
               <tbody>
@@ -79,7 +79,7 @@
                   <td>{{$wisuda->nim}}</td>
                   <td>{{$wisuda->nama_mahasiswa}}</td>
                   <td>{{$wisuda->jurusan}}</td>
-                  <td><button style="margin: 0px;height:25px;padding-top:5px" class="btn" id="but_wid" data-id="{{$wisuda->antrian[0]->nim}}">Action</button></td>
+                  <td><button style="margin: 0px;height:25px;padding-top:5px" class="btn" id="but_wid" data-id="{{$wisuda->antrian[0]->nim}}">Proses</button></td>
                 </tr>
                 @endforeach
               </tbody>
