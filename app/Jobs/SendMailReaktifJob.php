@@ -62,9 +62,8 @@ class SendMailReaktifJob implements ShouldQueue
         $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa]);
 
         $dada['email'] = $get->email;
-        $dada['subject'] = "WISUDA 64";
+        $dada['subject'] = "WISUDA 65";
         $dada['nim'] = $this->data->nim;
-        $dada["body"] = "Ini Email testing WISUDA 64 pake Queue";
 
         Mail::send('emails.myTestMail', $dada, function ($message) use ($dada, $pdf) {
             //Mail::send('emails.myTestMail', $dada, function ($message) use ($dada) {
