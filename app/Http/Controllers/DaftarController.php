@@ -31,6 +31,16 @@ class DaftarController extends Controller
         return response()->json($get);
     }
 
+    public function search_maha64(Request $request)
+    {
+        $get = DB::table('mahasiswa64')
+            ->where('nim', $request->nim)
+            ->first();
+        //->first() = hanya menampilkan satu saja dari hasil query
+        //->get() = returnnya berbentuk array atau harus banyak data
+        return response()->json($get);
+    }
+
     public function store(Request $request)
     {
         //get_data mahasiswa

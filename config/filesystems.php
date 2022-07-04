@@ -42,6 +42,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'public64' => [
+            'driver' => 'local',
+            'root' => public_path() . '/assets/images64',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
         'ttd' => [
             'driver' => 'local',
             'root' => public_path() . '/assets/images/ttd',

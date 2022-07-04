@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendMailReaktifJob;
 use App\Mail\antriansmail;
+use App\Models\antrian64;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Models\AntrianModels;
-use PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class AntrianController extends Controller
 {
@@ -128,6 +130,58 @@ class AntrianController extends Controller
         $save->save();
 
         return response()->json($save);
+    }
+
+    public function store_antr64(Request $request)
+    {
+        $get = DB::table('mahasiswa64')
+            ->where('nim', $request->nim_r)
+            ->first();
+        //foto
+        $cover = $request->file('image');
+        $filename = $request->nim_r . '-' . $get->id . '.jpeg';
+        //$extension = $cover->getClientOriginalExtension();
+        Storage::disk('public64')->put($filename,  File::get($cover));
+
+        $save = new antrian64();
+        $save->nim = $request->nim_r;
+        $save->bukti_pic = $filename;
+        $save->keterangan = $request->keterangan;
+        $save->keterangan = implode(",", $request->berkas);
+        $save->save();
+
+        $data = antrian64::find($save->id);
+        SendMailReaktifJob::dispatch($data);
+
+        return response()->json($save);
+    }
+
+    public function cetak_pdf()
+    {
+        $pegawai = antrian64::find(5);
+
+        $path = base_path('surat-piutang-B23.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $img = file_get_contents($path);
+        $pic = 'data:image/' . $type . ';base64,' . base64_encode($img);
+
+        $pathh = public_path() . '/assets/images64/' . $pegawai->bukti_pic;
+        $typee = pathinfo($pathh, PATHINFO_EXTENSION);
+        $imgg = file_get_contents($pathh);
+        $picc = 'data:image/' . $typee . ';base64,' . base64_encode($imgg);
+
+        $get = DB::table('mahasiswa64')
+            ->where('nim', $pegawai->nim)
+            ->first();
+
+        $berkas = DB::table('berkas')
+            ->whereIn('id', str_split($pegawai->keterangan))
+            ->get();
+
+        $date = date("d F Y H:i", strtotime($pegawai->updated_at));
+
+        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa]);
+        return $pdf->stream('laporan-pegawai-pdf');
     }
 
     public function cetak_page($id)

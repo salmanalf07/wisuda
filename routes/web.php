@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\AntrianController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,29 @@ Route::get('/wacom', function () {
 });
 Route::get('/dashboard', [AntrianController::class, 'dashboard']);
 Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
+
+
+//wisuda 64
+//Route::get('/', [AntrianController::class, 'index']);
+
+//pendaftaran
+Route::get('/wisuda64', function () {
+    $get = DB::table('berkas')
+        ->get();
+    return view('wisuda64/v_daftar', ['data' => $get]);
+});
+Route::post('/search64', [DaftarController::class, 'search_maha64']);
+Route::post('/store_antr64', [AntrianController::class, 'store_antr64']);
+Route::get('/cetak_pdf', [AntrianController::class, 'cetak_pdf']);
+// Route::get('/wacom', function () {
+//     return view('v_wacom');
+// });
+// Route::get('/dashboard', [AntrianController::class, 'dashboard']);
+// Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
+//end wisuda 64
+
+
+
 
 // Route::get('/data_komputer', [komputer::class, 'index']);
 // Route::get('/json_komputer',  [komputer::class, 'json']);
