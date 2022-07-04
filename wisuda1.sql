@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.5.1 (64 bit)
-MySQL - 10.4.17-MariaDB : Database - wisuda
+SQLyog Professional v12.5.1 (64 bit)
+MySQL - 10.4.14-MariaDB : Database - wisuda
 *********************************************************************
 */
 
@@ -32,7 +32,7 @@ CREATE TABLE `antrian` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=518 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=519 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `antrian` */
 
@@ -423,7 +423,35 @@ insert  into `antrian`(`id`,`jenis`,`no_urut`,`nim`,`bukti_pic`,`ttd`,`status`,`
 (514,'A','2','2001590921','2001590921-514.jpeg','2001590921-514- canvas.png','close','1,2,3,4,5','2022-06-03 14:44:40','2022-06-03 14:48:27'),
 (515,'A','1','2101674215','2101674215-515.jpeg','2101674215-515- canvas.png','close','1,2,3,4,5','2022-06-06 09:31:10','2022-06-06 09:32:39'),
 (516,'A','1','2101671314','2101671314-516.jpeg','2101671314-516- canvas.png','close','1,2,3,4,5','2022-06-09 10:52:17','2022-06-09 10:55:32'),
-(517,'A','1','2001623314','2001623314-517.jpeg','2001623314-517- canvas.png','close','1,2,3,5','2022-07-01 14:40:39','2022-07-01 14:42:46');
+(517,'A','1','2001623314','2001623314-517.jpeg','2001623314-517- canvas.png','close','1,2,3,5','2022-07-01 14:40:39','2022-07-01 14:42:46'),
+(518,'A','1','123816512','123816512-518.jpeg','123816512-518- canvas.png','close','1,2,3,4,5','2022-07-02 11:27:49','2022-07-02 18:30:14');
+
+/*Table structure for table `antrian64` */
+
+DROP TABLE IF EXISTS `antrian64`;
+
+CREATE TABLE `antrian64` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nim` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bukti_pic` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ttd` varchar(225) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('open','close') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keterangan` varchar(225) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `antrian64` */
+
+insert  into `antrian64`(`id`,`nim`,`bukti_pic`,`ttd`,`status`,`keterangan`,`created_at`,`updated_at`) values 
+(5,'123816512','123816512-1.jpeg',NULL,'close','1,2,3,4,5','2022-07-02 21:47:12','2022-07-02 21:47:12'),
+(6,'123816512','123816512-1.jpeg',NULL,NULL,'1,2,3,4,5','2022-07-02 21:56:31','2022-07-02 21:56:31'),
+(7,'123816512','123816512-1.jpeg',NULL,NULL,'1,2,3,4,5','2022-07-02 21:56:50','2022-07-02 21:56:50'),
+(11,'2001591432','2001591432-3.jpeg',NULL,'close','1,2,4,5','2022-07-02 22:18:58','2022-07-02 22:19:10'),
+(12,'2001591432','2001591432-2.jpeg',NULL,'close','2,3,4,5','2022-07-02 22:22:19','2022-07-02 22:23:07'),
+(13,'123816512','123816512-1.jpeg',NULL,'close','1,2,3,4,5','2022-07-02 22:25:40','2022-07-02 22:25:50'),
+(14,'123816512','123816512-1.jpeg',NULL,'close','1,2,3,4,5','2022-07-02 22:31:14','2022-07-02 22:31:31');
 
 /*Table structure for table `berkas` */
 
@@ -443,6 +471,42 @@ insert  into `berkas`(`id`,`nam_berkas`) values
 (3,'Dokumen Pendukung Ijazah'),
 (4,'Student Activity Transcript (SAT)'),
 (5,'Kartu Alumni');
+
+/*Table structure for table `failed_jobs` */
+
+DROP TABLE IF EXISTS `failed_jobs`;
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `failed_jobs` */
+
+/*Table structure for table `jobs` */
+
+DROP TABLE IF EXISTS `jobs`;
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `jobs_queue_index` (`queue`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `jobs` */
 
 /*Table structure for table `mahasiswa` */
 
@@ -465,7 +529,7 @@ CREATE TABLE `mahasiswa` (
 
 insert  into `mahasiswa`(`id`,`card`,`nim`,`jurusan`,`nama_mahasiswa`,`email`,`sesi`,`created_at`,`updated_at`) values 
 (1,'0F0284AB',123816512,'TI','m.salman Al-Farisi','m.farisi@binus.edu','1',NULL,NULL),
-(3,'2001591432',2001591432,'Business Information Technology','SHINTA KURNIAWATI',NULL,'',NULL,NULL),
+(3,'2001591432',2001591432,'Business Information Technology','SHINTA KURNIAWATI','m.farisi@binus.edu','',NULL,NULL),
 (4,NULL,2001598464,'Business Information Technology','TIMOTHY HUTSON',NULL,'',NULL,NULL),
 (5,NULL,2001620041,'Business Information Technology','RIESKA MEGA OKTAVIANI',NULL,'',NULL,NULL),
 (6,NULL,2001609101,'Business Information Technology','DIKY MUHAMMAD YUDISTIRA',NULL,'',NULL,NULL),
@@ -858,6 +922,60 @@ insert  into `mahasiswa`(`id`,`card`,`nim`,`jurusan`,`nama_mahasiswa`,`email`,`s
 (796,NULL,2101707554,'Accounting (PJJ)','VIRANIYA AGITTA MAGGA',NULL,'',NULL,NULL),
 (797,NULL,2201919056,'Business Management (PJJ)','WIWI',NULL,'',NULL,NULL),
 (798,NULL,2101699741,'Information Systems (PJJ)','YULIANA',NULL,'',NULL,NULL);
+
+/*Table structure for table `mahasiswa64` */
+
+DROP TABLE IF EXISTS `mahasiswa64`;
+
+CREATE TABLE `mahasiswa64` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `card` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nim` int(255) unsigned NOT NULL,
+  `jurusan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_mahasiswa` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sesi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `mahasiswa64` */
+
+insert  into `mahasiswa64`(`id`,`card`,`nim`,`jurusan`,`nama_mahasiswa`,`email`,`sesi`,`created_at`,`updated_at`) values 
+(1,'0F0284AB',123816512,'TI','m.salman Al-Farisi','m.farisi@binus.edu','1',NULL,NULL),
+(2,NULL,2001591432,'IT','SHINTA','m.farisi@binus.edu','1',NULL,NULL);
+
+/*Table structure for table `migrations` */
+
+DROP TABLE IF EXISTS `migrations`;
+
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `migrations` */
+
+insert  into `migrations`(`id`,`migration`,`batch`) values 
+(1,'2014_10_12_100000_create_password_resets_table',1),
+(2,'2019_08_19_000000_create_failed_jobs_table',1),
+(3,'2022_07_02_185442_create_jobs_table',2);
+
+/*Table structure for table `password_resets` */
+
+DROP TABLE IF EXISTS `password_resets`;
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `password_resets` */
 
 /*Table structure for table `users` */
 
