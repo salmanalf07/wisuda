@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Models\AntrianModels;
 use App\Mail\antriansmail;
+use App\Models\mahasiswa64;
 
 class DaftarController extends Controller
 {
@@ -33,7 +34,10 @@ class DaftarController extends Controller
 
     public function search_maha64(Request $request)
     {
-        $get = DB::table('mahasiswa64')
+        // $get = DB::table('mahasiswa64')
+        //     ->where('nim', $request->nim)
+        //     ->first();
+        $get = mahasiswa64::with('antrian')
             ->where('nim', $request->nim)
             ->first();
         //->first() = hanya menampilkan satu saja dari hasil query

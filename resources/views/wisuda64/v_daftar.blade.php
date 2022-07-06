@@ -17,18 +17,29 @@
   function log2() {
     $.ajax({
       type: 'POST',
-      url: '/search_nim',
+      url: '/search64',
       data: {
         '_token': "{{ csrf_token() }}",
-        'card': $('#nim').val(),
+        'nim': $('#nim').val(),
       },
       success: function(dataa) {
         //console.log(data);
+        $('#myModal').modal('show');
+        // //isi form
+        $('#id').val(dataa.id);
+        $('#nama').val(dataa.nama_mahasiswa);
+        $('#jurusan').val(dataa.jurusan);
+        $('#nim_r').val(dataa.nim);
 
-        //isi form
-        $('#nim').val(dataa.nim);
-
-        search(dataa.nim);
+        id = $('#id').val();
+        // $('.detail').show();
+        $('#submitButton').show();
+        $('#button_reset').show();
+        //console.log(dataa.antrian[0].keterangan.split(","))
+        var checkboxes = dataa.antrian[0].keterangan.split(",");
+        for (var i = 0; i < checkboxes.length; i++) {
+          $('#berkas' + checkboxes[i]).prop('checked', true);
+        }
 
       },
     });
@@ -111,36 +122,47 @@
                   </div>
                   <table style="width: 84%;">
                     <tr>
-                      <td>
+                      <td colspan="2">
                         <center>
                           <div id="my_camera"></div>
                         </center>
                       </td>
                     </tr>
                     <tr>
-                      <td><input style="padding: 5px 30px;" class="btn" type=button value="Take Snapshot" onClick="take_snapshot()">
+                      <td colspan="2">
+                        <input style="padding: 5px 30px;" class="btn" type=button value="Take Snapshot" onClick="take_snapshot()">
                         <button style="padding: 5px 30px;" type="button" class="btn btn-danger" onclick="reset_cam()">Re-Take</button>
                       </td>
                     </tr>
                     <tr>
-                      <td style="font-weight: bold;">Berkas yang diterima</td>
+                      <td colspan="2" style="font-weight: bold;">Berkas yang diterima</td>
                     </tr>
                     <tr>
                       <td style="text-align: left;">
                         <input class="btn btn-primary" type=button value="Check All" onclick="check_all()">
                       </td>
                     </tr>
-                    <?php
-                    $i = 1;
-                    $j = 0;
-                    ?>
-                    @foreach($data as $datas)
                     <tr>
-                      <td class="table-berkas" colspan="2">
-                        <input id="berkas{{$j++}}" type="checkbox" name="berkas[]" value="{{$datas->id}}">&nbsp {{$i++}}. {{$datas->nam_berkas}}
-                      </td>
+                      <?php
+                      $i = 1;
+                      $j = 0;
+                      $k = 1;
+                      ?>
+                      @foreach($data as $datas)
+                      @if ($j % 2 == 0 && $j != 0)
                     </tr>
-                    @endforeach
+                    <tr>
+                      <td class="table-berkas">
+                        <input id="berkas{{$k++}}" type="checkbox" name="berkas[]" value="{{$datas->id}}">&nbsp {{$i++}}. {{$datas->nam_berkas}}
+                      </td>
+                      @else
+                      <td class="table-berkas">
+                        <input id="berkas{{$k++}}" type="checkbox" name="berkas[]" value="{{$datas->id}}">&nbsp {{$i++}}. {{$datas->nam_berkas}}
+                      </td>
+                      @endif
+                      <?php $j++ ?>
+                      @endforeach
+                    </tr>
                   </table>
 
                   <div class="card-footer">
@@ -343,6 +365,11 @@
           // $('.detail').show();
           $('#submitButton').show();
           $('#button_reset').show();
+          //console.log(data.antrian[0].keterangan.split(","))
+          var checkboxes = data.antrian[0].keterangan.split(",");
+          for (var i = 0; i < checkboxes.length; i++) {
+            $('#berkas' + checkboxes[i]).prop('checked', true);
+          }
 
         },
       });
@@ -353,11 +380,11 @@
       var checkboxes = document.getElementsByName('berkas[]');
       //console.log(checkboxes.length);
       if (document.getElementById('berkas1').checked) {
-        for (var i = 0; i < checkboxes.length; i++) {
+        for (var i = 1; i <= checkboxes.length; i++) {
           $('#berkas' + [i]).prop('checked', false);
         }
       } else {
-        for (var i = 0; i < checkboxes.length; i++) {
+        for (var i = 1; i <= checkboxes.length; i++) {
           $('#berkas' + [i]).prop('checked', true);
         }
       }
