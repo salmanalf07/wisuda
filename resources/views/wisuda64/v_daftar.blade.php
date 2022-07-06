@@ -102,7 +102,7 @@
           <div class="modal-dialog" id="dialog">
             <div class="modal-content">
               <div class="card-header">
-                BUKTI PENGAMBIL BERKAS KELULUSAN
+                BUKTI PENGAMBILAN BERKAS KELULUSAN
               </div>
               <div class="card-body">
                 <form method="post" role="form" id="form-add" enctype="multipart/form-data">
