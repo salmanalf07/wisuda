@@ -70,7 +70,7 @@
             <div id="readerList" hidden></div>
             <div class="card-body">
               <!-- <input class="form-control" id="nim" name="nim" type="text" placeholder="ID CARD / NIM" autofocus> -->
-              <input class="form-control" name="nim" id="nim" cols="1" rows="1" placeholder="ID CARD / NIM" autofocus />
+              <input class="form-control" style="font-weight:bold" name="nim" id="nim" cols="1" rows="1" placeholder="ID CARD / NIM" autofocus />
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -124,7 +124,7 @@
                     <input class="form-control" type="text" name="jurusan" id="jurusan" placeholder="Fakultas-Jurusan" readonly />
                   </div>
                   <div class="col-md-5 inline">
-                    <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama Mahasiswa" readonly />
+                    <input class="form-control" style="font-weight:bold" type="text" name="nama" id="nama" placeholder="Nama Mahasiswa" readonly />
                   </div>
                   <div class="col-md-5 inline">
                     <input class="form-control" type="text" name="sesi" id="sesi" placeholder="" readonly />
@@ -148,7 +148,7 @@
                     </tr>
                     <tr>
                       <td style="text-align: left;">
-                        <input class="btn btn-primary" type=button value="Check All" onclick="check_all()">
+                        <input class="btn btn-primary" style="padding: 5px 30px;" type=button value="Check All" onclick="check_all()">
                       </td>
                     </tr>
                     <tr>
