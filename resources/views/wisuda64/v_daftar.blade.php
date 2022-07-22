@@ -30,6 +30,7 @@
       success: function(dataa) {
         //console.log(data);
         $('#myModal').modal('show');
+        $('#nim').val('');
         // //isi form
         $('#id').val(dataa.id);
         $('#nama').val(dataa.nama_mahasiswa);
@@ -74,7 +75,7 @@
             <div class="card-footer">
               <div class="stats">
               </div>
-              <button class="btn" id="sub_nim" onclick="log2()">Submit</button>
+              <button style="margin: 0px;height:25px;padding-top:5px" class="btn" id="sub_nim" onclick="log2()">Submit</button>
             </div>
           </div>
         </div>
@@ -92,7 +93,7 @@
               <tbody>
                 @foreach($mahasiswa as $wisuda)
                 <tr>
-                  <td>{{$wisuda->nim}}</td>
+                  <th>{{$wisuda->nim}}</th>
                   <th>{{$wisuda->nama_mahasiswa}}</th>
                   <td>{{$wisuda->jurusan}}</td>
                   <td>
