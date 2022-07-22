@@ -41,7 +41,7 @@ Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
 //Route::get('/', [AntrianController::class, 'index']);
 
 //pendaftaran
-Route::get('/{wisuda64}', function ($id) {
+Route::get('/{wisuda65}', function ($id) {
     $get = DB::table('berkas')
         ->get();
     $str = explode("-", $id);
