@@ -7,17 +7,22 @@
   <link rel="stylesheet" href="assets/css/login.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="/assets/googlefontapis/css/roboto.css">
-  <link rel="stylesheet" href="/assets/googlefontapis/css/material-icons.css">
+  <link rel="stylesheet" href="assets/googlefontapis/css/roboto.css">
+  <link rel="stylesheet" href="assets/googlefontapis/css/material-icons.css">
   <!-- CSS Files -->
-  <link href="/assets/css/material-dashboard.css" rel="stylesheet" />
+  <link href="assets/css/material-dashboard.css" rel="stylesheet" />
   <title>DAFTAR</title>
+  <style>
+    .form-control[readonly] {
+      background-color: transparent;
+    }
+  </style>
 </head>
 <script type="text/javascript">
   function log2() {
     $.ajax({
       type: 'POST',
-      url: '/search64',
+      url: 'search64',
       data: {
         '_token': "{{ csrf_token() }}",
         'nim': $('#nim').val(),
@@ -69,7 +74,7 @@
             <div class="card-footer">
               <div class="stats">
               </div>
-              <button class="btn" onclick="log2()">Submit</button>
+              <button class="btn" id="sub_nim" onclick="log2()">Submit</button>
             </div>
           </div>
         </div>
@@ -88,9 +93,12 @@
                 @foreach($mahasiswa as $wisuda)
                 <tr>
                   <td>{{$wisuda->nim}}</td>
-                  <td>{{$wisuda->nama_mahasiswa}}</td>
+                  <th>{{$wisuda->nama_mahasiswa}}</th>
                   <td>{{$wisuda->jurusan}}</td>
-                  <td><button style="margin: 0px;height:25px;padding-top:5px" class="btn" id="but_wid" data-id="{{$wisuda->antrian[0]->nim}}">Proses</button></td>
+                  <td>
+                    <button style="margin: 0px;height:25px;padding-top:5px" class="btn btn-danger" id="but_skip" data-id="{{$wisuda->antrian[0]->nim}}">Skip</button>
+                    <button style="margin: 0px;height:25px;padding-top:5px" class="btn" id="but_wid" data-id="{{$wisuda->antrian[0]->nim}}">Proses</button>
+                  </td>
                 </tr>
                 @endforeach
               </tbody>
@@ -109,16 +117,16 @@
                   @csrf
                   <input class="form-control" type="text" name="id" id="id" hidden />
                   <div class="col-md-5 inline">
-                    <input class="form-control" type="text" name="nim_r" id="nim_r" placeholder="NIM" />
+                    <input class="form-control" type="text" name="nim_r" id="nim_r" placeholder="NIM" readonly />
                   </div>
                   <div class="col-md-5 inline">
-                    <input class="form-control" type="text" name="jurusan" id="jurusan" placeholder="Fakultas-Jurusan" />
+                    <input class="form-control" type="text" name="jurusan" id="jurusan" placeholder="Fakultas-Jurusan" readonly />
                   </div>
                   <div class="col-md-5 inline">
-                    <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama Mahasiswa" />
+                    <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama Mahasiswa" readonly />
                   </div>
                   <div class="col-md-5 inline">
-                    <input class="form-control" type="text" name="sesi" id="sesi" placeholder="" />
+                    <input class="form-control" type="text" name="sesi" id="sesi" placeholder="" readonly />
                   </div>
                   <table style="width: 84%;">
                     <tr>
@@ -199,11 +207,21 @@
       </div>
     </div>
   </div>
-  <script src="/assets/js/jquery-3.5.1.js"></script>
-  <script src="/assets/js/popper.min.js"></script>
-  <script src="/assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/jquery-3.5.1.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
   <!-- Webcam.min.js -->
-  <script type="text/javascript" src="/assets/webcamjs/webcam.min.js"></script>
+  <script type="text/javascript" src="assets/webcamjs/webcam.min.js"></script>
+
+  <script>
+    var input = document.getElementById("nim");
+    input.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("sub_nim").click();
+      }
+    });
+  </script>
   <script language="JavaScript">
     function b64toBlob(b64Data, contentType, sliceSize) {
       contentType = contentType || '';
@@ -279,7 +297,7 @@
           //window.location.href = "/";
           $('#myModal').modal('hide');
           $('#ModalSucces').modal('show');
-          $('#svgResult').attr("src", "/assets/image/succes.svg");
+          $('#svgResult').attr("src", "assets/image/succes.svg");
           // $('#linkCetak').attr("href", "/cetak/" + data.id);
           $('#hasil').text('Data Berhasil Disimpan');
 
@@ -289,7 +307,8 @@
           // );
 
           setInterval(() => {
-            window.location.href = "/wisuda64";
+            // window.location.href = "wisuda64";
+            location.reload();
           }, 500);
 
         },
@@ -297,7 +316,7 @@
           document.getElementById("form-add").reset();
           $('#myModal').modal('hide');
           $('#ModalSucces').modal('show');
-          $("#svgResult").attr("src", "/assets/image/remove.svg");
+          $("#svgResult").attr("src", "assets/image/remove.svg");
           $('#linkCetak').hide();
           $('#hasil').text('Data Gagal Disimpan');
         }
@@ -315,7 +334,7 @@
       force_flash: false,
       fps: 45,
       deviceId: {
-        exact: 'HP HD Webcam'
+        exact: 'environment'
       }
     });
     Webcam.attach('#my_camera');
@@ -347,7 +366,7 @@
 
       $.ajax({
         type: 'POST',
-        url: '/search64',
+        url: 'search64',
         data: {
           '_token': "{{ csrf_token() }}",
           'nim': dataa,
@@ -375,6 +394,26 @@
       });
 
     };
+
+    $(document).on('click', '#but_skip', function(e) {
+      e.preventDefault();
+      var uidd = $(this).data('id');
+      skip(uidd);
+    });
+
+    function skip(nim) {
+      $.ajax({
+        type: 'POST',
+        url: 'skip64',
+        data: {
+          '_token': "{{ csrf_token() }}",
+          'nim': nim,
+        },
+        success: function(dataa) {
+          location.reload();
+        },
+      });
+    }
 
     function check_all() {
       var checkboxes = document.getElementsByName('berkas[]');

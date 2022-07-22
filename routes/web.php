@@ -5,6 +5,7 @@ use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\AntrianController;
 use App\Models\mahasiswa64;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,11 +41,15 @@ Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
 //Route::get('/', [AntrianController::class, 'index']);
 
 //pendaftaran
-Route::get('/wisuda64', function () {
+Route::get('/{wisuda64}', function ($id) {
     $get = DB::table('berkas')
         ->get();
+    $str = explode("-", $id);
     $mahasiswa = mahasiswa64::with('antrian')
+        ->where('loket', '=', $str[1])
+        ->where('sesi', '=', $str[2])
         ->whereHas('antrian', function ($query) {
+            $query->where('skip', '=', null);
             $query->where('status', '=', 'open');
         })
         ->paginate(5);
@@ -52,6 +57,7 @@ Route::get('/wisuda64', function () {
     //return $mahasiswa;
 });
 Route::post('/search64', [DaftarController::class, 'search_maha64']);
+Route::post('/skip64', [DaftarController::class, 'skip_maha64']);
 Route::post('/store_antr64', [AntrianController::class, 'store_antr64']);
 Route::get('/cetak_pdf', [AntrianController::class, 'cetak_pdf']);
 // Route::get('/wacom', function () {

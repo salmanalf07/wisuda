@@ -17,6 +17,7 @@ class mahasiswa64 extends Model
         'nama_mahasiswa',
         'jurusan',
         'email',
+        'loket',
         'sesi'
     ];
 
