@@ -81,7 +81,7 @@
         </div>
         <div class="col-md-12">
           <div class="card card-chart">
-            <table class="table">
+            <table class="table tabtab">
               <thead>
                 <tr>
                   <th>NIM</th>
@@ -189,8 +189,8 @@
             <div class="modal-content">
               <div class="card-body">
                 <div>
-                  <img id="svgResult" src="" alt="" width="150">
-                  <p id="hasil"></p>
+                  <!-- <img id="svgResult" src="" alt="" width="150"> -->
+                  <h2 id="hasil"></h2>
                 </div>
 
                 <!-- <div class="card-footer">
@@ -298,7 +298,7 @@
           //window.location.href = "/";
           $('#myModal').modal('hide');
           $('#ModalSucces').modal('show');
-          $('#svgResult').attr("src", "assets/image/succes.svg");
+          // $('#svgResult').attr("src", "assets/image/succes.svg");
           // $('#linkCetak').attr("href", "/cetak/" + data.id);
           $('#hasil').text('Data Berhasil Disimpan');
 
@@ -317,7 +317,7 @@
           document.getElementById("form-add").reset();
           $('#myModal').modal('hide');
           $('#ModalSucces').modal('show');
-          $("#svgResult").attr("src", "assets/image/remove.svg");
+          // $("#svgResult").attr("src", "assets/image/remove.svg");
           $('#linkCetak').hide();
           $('#hasil').text('Data Gagal Disimpan');
         }

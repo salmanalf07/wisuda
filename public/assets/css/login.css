@@ -1,7 +1,8 @@
 body {
-    background-image: url(../image/background.jpg);
-    background-repeat: no-repeat;
-    background-size: 100%;
+    /* background-image: url(../image/background.jpg); */
+    background-color: black;
+    /* background-repeat: no-repeat; */
+    /* background-size: 100%; */
 }
 .wrapper-login {
     max-width: 80%;
@@ -115,4 +116,15 @@ table {
         background-color: tan;
         See https://stackoverflow.com/questions/6957034/save-canvas-with-background-image
     */
+}
+
+.tabtab tbody {
+    display: block;
+    height: 300px;
+    overflow: auto;
+}
+.tabtab thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;/* even columns width , fix width of table too*/
 }

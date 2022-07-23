@@ -52,7 +52,7 @@ Route::get('/{wisuda65}', function ($id) {
             $query->where('skip', '=', null);
             $query->where('status', '=', 'open');
         })
-        ->paginate(5);
+        ->paginate(15);
     return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
     //return $mahasiswa;
 });
