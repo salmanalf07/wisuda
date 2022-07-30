@@ -6,6 +6,7 @@ use App\Http\Controllers\AntrianController;
 use App\Models\mahasiswa64;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use PHPUnit\Framework\Constraint\Count;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,26 +42,35 @@ Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
 //Route::get('/', [AntrianController::class, 'index']);
 
 //pendaftaran
-// Route::get('/{wisuda65}', function ($id) {
-//     $get = DB::table('berkas')
-//         ->get();
-//     $str = explode("-", $id);
-//     $mahasiswa = mahasiswa64::with('antrian')
-//         ->where('loket', '=', $str[1])
-//         ->where('sesi', '=', $str[2])
-//         ->whereHas('antrian', function ($query) {
-//             $query->where('skip', '=', null);
-//             $query->where('status', '=', 'open');
-//         })
-//         ->paginate(20);
-//     return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
-//     //return $mahasiswa;
-// });
+Route::get('/{wisuda65}', function ($id) {
+    $get = DB::table('berkas')
+        ->get();
+    $str = explode("-", $id);
+    if (!empty($str[1]) && !empty($str[2])) {
+        $mahasiswa = mahasiswa64::with('antrian')
+            ->where('loket', '=', $str[1])
+            ->where('sesi', '=', $str[2])
+            ->whereHas('antrian', function ($query) {
+                $query->where('skip', '=', null);
+                $query->where('status', '=', 'open');
+            })
+            ->paginate(20);
+    } else {
+        $mahasiswa = mahasiswa64::with('antrian')
+            ->whereHas('antrian', function ($query) {
+                $query->where('skip', '=', null);
+                $query->where('status', '=', 'open');
+            })
+            ->paginate(20);
+    }
+    return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
+    //return $str;
+});
 Route::post('/search64', [DaftarController::class, 'search_maha64']);
 Route::post('/skip64', [DaftarController::class, 'skip_maha64']);
 Route::post('/store_antr64', [AntrianController::class, 'store_antr64']);
 Route::get('/cetak_pdf', [AntrianController::class, 'cetak_pdf']);
-Route::get('/sendsisa', [AntrianController::class, 'send_total']);
+// Route::get('/sendsisa', [AntrianController::class, 'send_total']);
 // Route::get('/wacom', function () {
 //     return view('v_wacom');
 // });

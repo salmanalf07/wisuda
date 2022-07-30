@@ -1,8 +1,7 @@
 body {
-    /* background-image: url(../image/background.jpg); */
-    background-color: black;
-    /* background-repeat: no-repeat; */
-    /* background-size: 100%; */
+    background-image: url(../image/background.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 .wrapper-login {
     max-width: 80%;
