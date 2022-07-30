@@ -61,22 +61,30 @@ class SendMailReaktifJob implements ShouldQueue
 
         $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa]);
 
-        $dada['email'] = $get->email;
-        $dada['subject'] = "WISUDA 65";
-        $dada['nim'] = $this->data->nim;
+        $str = explode("-", $get->campus);
 
-        Mail::send('emails.myTestMail', $dada, function ($message) use ($dada, $pdf) {
-            //Mail::send('emails.myTestMail', $dada, function ($message) use ($dada) {
-            $message->to($dada['email'])
-                ->subject($dada['subject'])
-                ->attachData($pdf->output(), $dada['nim'] . ".pdf");
-        });
+        if ($str[1]) {
+            # code...
+        }
 
-        // check for failures
-        if (!Mail::failures()) {
-            $postt = antrian64::find($this->data->id);
-            $postt->sender_at = date("Y-m-d H:i:s", strtotime('now'));
-            $postt->save();
+        if ($get->email != null) {
+            $dada['email'] = $get->email;
+            $dada['subject'] = "WISUDA 65";
+            $dada['nim'] = $this->data->nim;
+
+            Mail::send('emails.myTestMail', $dada, function ($message) use ($dada, $pdf) {
+                //Mail::send('emails.myTestMail', $dada, function ($message) use ($dada) {
+                $message->to($dada['email'])
+                    ->subject($dada['subject'])
+                    ->attachData($pdf->output(), $dada['nim'] . ".pdf");
+            });
+
+            // check for failures
+            if (!Mail::failures()) {
+                $postt = antrian64::find($this->data->id);
+                $postt->sender_at = date("Y-m-d H:i:s", strtotime('now'));
+                $postt->save();
+            }
         }
     }
 }
