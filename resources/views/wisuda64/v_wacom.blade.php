@@ -241,7 +241,7 @@
             </div>
             <p class="p2">Adapun setelah dokumen berkas kelulusan ini saya terima maka segala kerusakan atau kehilangan yang terjadi pada dokumen berkas kelulusan ini sepenuhnya merupakan tanggung jawab saya dan saya menyadari bahwa pihak Universitas Bina Nusantara tidak dapat melakukan pencetakan ulang untuk dokumen berkas kelulusan yang hilang atau rusak tersebut.</p>
             <div class="div-footer">
-                <p class="footer">Jakarta, <?php echo getRomawi($tanggal) ?></p>
+                <p class="footer">{{$tempat}}, <?php echo getRomawi($tanggal) ?></p>
                 <br>
                 <p class="footer">{{$nama}}</p>
             </div>

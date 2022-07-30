@@ -157,8 +157,9 @@ class AntrianController extends Controller
             $save->status = "close";
             $save->keterangan = implode(",", $request->berkas);
             $save->save();
-
-            SendMailReaktifJob::dispatch($get_id);
+            if ($get->email) {
+                SendMailReaktifJob::dispatch($get_id->id);
+            }
         } else {
             $save = new antrian64();
             $save->nim = $request->nim_r;
@@ -167,7 +168,9 @@ class AntrianController extends Controller
             $save->keterangan = implode(",", $request->berkas);
             $save->save();
 
-            SendMailReaktifJob::dispatch($save->id);
+            if ($get->email) {
+                SendMailReaktifJob::dispatch($save->id);
+            }
         }
 
 

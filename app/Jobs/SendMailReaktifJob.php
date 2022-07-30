@@ -37,7 +37,7 @@ class SendMailReaktifJob implements ShouldQueue
      */
     public function handle()
     {
-        $pegawai = antrian64::find($this->data->id);
+        $pegawai = antrian64::find($this->data);
 
         $path = base_path('surat-piutang-B23.png');
         $type = pathinfo($path, PATHINFO_EXTENSION);
@@ -59,18 +59,23 @@ class SendMailReaktifJob implements ShouldQueue
 
         $date = date("d m Y H:i", strtotime($pegawai->updated_at));
 
-        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa]);
-
         $str = explode("-", $get->campus);
 
-        if ($str[1]) {
-            # code...
+        if ($str[1] == 'Alam-sutera' || $str[1] == 'Senayan'  || $str[1] == 'Kemanggisan' || $str[1] == 'Online') {
+            $tempat = "Jakarta";
+        } elseif ($str[1] = 'Bekasi') {
+            $tempat = "Bekasi";
+        } else {
+            $tempat = $str[1];
         }
+
+        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa, 'tempat' => $tempat]);
+
 
         if ($get->email != null) {
             $dada['email'] = $get->email;
             $dada['subject'] = "WISUDA 65";
-            $dada['nim'] = $this->data->nim;
+            $dada['nim'] = $pegawai->nim;
 
             Mail::send('emails.myTestMail', $dada, function ($message) use ($dada, $pdf) {
                 //Mail::send('emails.myTestMail', $dada, function ($message) use ($dada) {
@@ -81,7 +86,7 @@ class SendMailReaktifJob implements ShouldQueue
 
             // check for failures
             if (!Mail::failures()) {
-                $postt = antrian64::find($this->data->id);
+                $postt = antrian64::find($this->data);
                 $postt->sender_at = date("Y-m-d H:i:s", strtotime('now'));
                 $postt->save();
             }
