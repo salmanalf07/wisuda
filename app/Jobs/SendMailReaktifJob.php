@@ -59,7 +59,7 @@ class SendMailReaktifJob implements ShouldQueue
 
         $date = date("d m Y H:i", strtotime($pegawai->updated_at));
 
-        $str = explode("-", $get->campus);
+        $str = explode(" ", $get->campus);
 
         if ($str[1] == 'Alam-sutera' || $str[1] == 'Senayan'  || $str[1] == 'Kemanggisan' || $str[1] == 'Online') {
             $tempat = "Jakarta";
