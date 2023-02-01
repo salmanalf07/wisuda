@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\AntrianController;
 use App\Models\mahasiswa64;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use PHPUnit\Framework\Constraint\Count;
@@ -67,6 +69,9 @@ Route::get('/{wisuda65}', function ($id) {
                 })
                 ->paginate(20);
         }
+        return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
+    } elseif ($id == "cetak_pdf") {
+        return App::call('App\Http\Controllers\AntrianController@cetak_pdf');
     } else {
         $mahasiswa = mahasiswa64::with('antrian')
             ->whereHas('antrian', function ($query) {
@@ -74,8 +79,8 @@ Route::get('/{wisuda65}', function ($id) {
                 $query->where('status', '=', 'open');
             })
             ->paginate(20);
+        return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
     }
-    return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
     //return $str;
 });
 Route::post('/search64', [DaftarController::class, 'search_maha64']);

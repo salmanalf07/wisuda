@@ -146,7 +146,7 @@ class AntrianController extends Controller
         $cover = $request->file('image');
         $filename = $request->nim_r . '-' . uniqid() . '.jpeg';
         //$extension = $cover->getClientOriginalExtension();
-        Storage::disk('public64')->put($filename,  File::get($cover));
+        Storage::disk('public')->put($get->card . '/' . $filename,  File::get($cover));
 
         if ($get_id) {
 
@@ -182,14 +182,14 @@ class AntrianController extends Controller
 
     public function cetak_pdf()
     {
-        $pegawai = antrian64::find(5);
+        $pegawai = antrian64::find(8703);
 
         $path = base_path('surat-piutang-B23.png');
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
         $pic = 'data:image/' . $type . ';base64,' . base64_encode($img);
 
-        $pathh = public_path() . '/assets/images64/' . $pegawai->bukti_pic;
+        $pathh = public_path() . '/assets/images/wisuda65/' . $pegawai->bukti_pic;
         $typee = pathinfo($pathh, PATHINFO_EXTENSION);
         $imgg = file_get_contents($pathh);
         $picc = 'data:image/' . $typee . ';base64,' . base64_encode($imgg);
@@ -204,7 +204,17 @@ class AntrianController extends Controller
 
         $date = date("d m Y H:i", strtotime($pegawai->updated_at));
 
-        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa]);
+        $str = explode(" ", $get->campus);
+
+        if ($str[1] == 'Alam-Sutera' || $str[1] == 'Senayan'  || $str[1] == 'Kemanggisan' || $str[1] == 'Online') {
+            $tempat = "Jakarta";
+        } elseif ($str[1] = 'Bekasi') {
+            $tempat = "Bekasi";
+        } else {
+            $tempat = $str[1];
+        }
+
+        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa, 'tempat' => $tempat]);
         return $pdf->stream('laporan-pegawai-pdf');
     }
 
@@ -235,8 +245,8 @@ class AntrianController extends Controller
     {
 
         $nim_data = [
-            2301975354,2301974111,2101792643,2101726490,2440096010
-];
+            2301975354, 2301974111, 2101792643, 2101726490, 2440096010
+        ];
 
         $updsj = collect($nim_data)->filter()->all();
 

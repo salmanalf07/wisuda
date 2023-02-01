@@ -44,7 +44,7 @@ return [
 
         'public64' => [
             'driver' => 'local',
-            'root' => public_path() . '/assets/images64',
+            'root' => public_path() . '/assets/images/wisuda64',
             'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
