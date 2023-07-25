@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\AntrianController;
+use App\Http\Controllers\paketWisudaController;
 use App\Models\mahasiswa64;
+use App\Models\paketWisuda;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -44,15 +46,15 @@ Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
 //Route::get('/', [AntrianController::class, 'index']);
 
 //pendaftaran
-Route::get('/{wisuda65}', function ($id) {
+Route::get('/wisuda/{wisuda65}', function ($id) {
     $get = DB::table('berkas')
         ->get();
     $str = explode("-", $id);
     if (!empty($str[1]) && !empty($str[2])) {
-        if (mahasiswa64::where('card', '=', $str[0])->count() > 0) {
+        if (mahasiswa64::where('card', '=', "wisuda" . $str[0])->count() > 0) {
             $mahasiswa = mahasiswa64::with('antrian')
-                ->where('card', '=', $str[0])
-                ->where('loket', '=', $str[1])
+                ->where('card', '=', "wisuda" . $str[0])
+                ->where('loket', 'like', '%' . $str[1] . '%')
                 ->where('sesi', '=', $str[2])
                 ->whereHas('antrian', function ($query) {
                     $query->where('skip', '=', null);
@@ -61,7 +63,7 @@ Route::get('/{wisuda65}', function ($id) {
                 ->paginate(20);
         } else {
             $mahasiswa = mahasiswa64::with('antrian')
-                ->where('loket', '=', $str[1])
+                ->where('loket', 'like', '%' . $str[1] . '%')
                 ->where('sesi', '=', $str[2])
                 ->whereHas('antrian', function ($query) {
                     $query->where('skip', '=', null);
@@ -95,12 +97,29 @@ Route::get('/sendsisa/w66', [AntrianController::class, 'send_total']);
 // Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
 //end wisuda 64
 
-
-
-
-// Route::get('/data_komputer', [komputer::class, 'index']);
-// Route::get('/json_komputer',  [komputer::class, 'json']);
-// Route::post('/store_komputer', [komputer::class, 'store']);
-// Route::post('/edit_komputer', [komputer::class, 'edit']);
-// Route::put('/update_komputer/{id}', [komputer::class, 'update']);
-// Route::delete('/delete_komputer/{id}/{idspe}', [komputer::class, 'destroy']);
+//Paket Wisuda
+Route::get('/paketWisuda/{wisuda}', function ($id) {
+    $str = explode("-", $id);
+    if (!empty($str[1]) && !empty($str[2])) {
+        if (paketWisuda::where('wisuda', '=', $str[0])->count() > 0) {
+            $mahasiswa = paketWisuda::where('wisuda', '=', $str[0])
+                ->where('skip', '=', null)
+                ->where('status', '=', 'open')
+                ->paginate(20);
+        } else {
+            $mahasiswa = paketWisuda::where('skip', '=', null)
+                ->where('status', '=', 'open')
+                ->paginate(20);
+        }
+        return view('paketWisuda/v_paketWisuda', ['mahasiswa' => $mahasiswa]);
+    } else {
+        $mahasiswa = paketWisuda::where('skip', '=', null)
+            ->where('status', '=', 'open')
+            ->paginate(20);
+        return view('paketWisuda/v_paketWisuda', ['mahasiswa' => $mahasiswa]);
+    }
+    //return $str;
+});
+Route::post('/skipPaket', [paketWisudaController::class, 'skip']);
+Route::post('/searchPaket', [paketWisudaController::class, 'search']);
+Route::post('/storePaket', [paketWisudaController::class, 'store']);

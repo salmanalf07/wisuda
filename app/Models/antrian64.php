@@ -16,7 +16,10 @@ class antrian64 extends Model
         'bukti_pic',
         'ttd',
         'status',
-        'keterangan'
+        'keterangan',
+        'updTimeKet',
+        'user',
+        'sender_at'
     ];
 
     public function mahasiswa()

@@ -155,17 +155,24 @@ class AntrianController extends Controller
             $save->nim = $request->nim_r;
             $save->bukti_pic = $filename;
             $save->status = "close";
-            $save->keterangan = implode(",", $request->berkas);
+            $keterangan = implode(",", $request->berkas);
+            if ($save->keterangan != $keterangan) {
+                $save->keterangan = $keterangan;
+                $save->updTimeKet = date("Y-m-d H:i:s", strtotime('now'));
+            }
+            $save->user = $request->ip();
             $save->save();
             if ($get->email) {
                 SendMailReaktifJob::dispatch($get_id->id);
             }
         } else {
-            $save = new antrian64();
+             $save = new antrian64();
             $save->nim = $request->nim_r;
             $save->bukti_pic = $filename;
             $save->status = "close";
             $save->keterangan = implode(",", $request->berkas);
+            $save->updTimeKet = date("Y-m-d H:i:s", strtotime('now'));
+            $save->user = $request->ip();
             $save->save();
 
             if ($get->email) {

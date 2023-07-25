@@ -28,7 +28,7 @@
   function log2() {
     $.ajax({
       type: 'POST',
-      url: '/search64',
+      url: '/searchPaket',
       data: {
         '_token': "{{ csrf_token() }}",
         'nim': $('#nim').val(),
@@ -38,20 +38,16 @@
         // $('#myModal').modal('show');
         $('#nim').val('');
         // //isi form
-        $('#id').val(dataa[1].id);
-        $('#nama').val(dataa[1].nama_mahasiswa);
-        $('#jurusan').val(dataa[1].jurusan);
-        $('#nim_r').val(dataa[1].nim);
+        $('#id').val(dataa.id);
+        $('#nama').val(dataa.nama_mahasiswa);
+        $('#jurusan').val(dataa.jurusan);
+        $('#nim_r').val(dataa.nim);
+        $('#uToga').val(dataa.uToga);
 
         id = $('#id').val();
         // $('.detail').show();
         $('#submitButton').show();
         $('#button_reset').show();
-        //console.log(dataa[1].antrian[0].keterangan.split(","))
-        var checkboxes = dataa[1].antrian[0].keterangan.split(",");
-        for (var i = 0; i < checkboxes.length; i++) {
-          $('#berkas' + checkboxes[i]).prop('checked', true);
-        }
 
         // //menampilkan popup dulu
         // if (checkboxes.length != 7) {
@@ -77,7 +73,7 @@
 
 <body>
   <div class="judul">
-    <p>Aplikasi Antrian Wisuda BINUS@BEKASI CAMPUS</p>
+    <p>Aplikasi Antrian Paket Wisuda BINUS@BEKASI CAMPUS</p>
   </div>
   <object id="webcard" type="application/x-webcard" width="0" height="0">
     <param name="onload" value="pluginLoaded" />
@@ -120,9 +116,9 @@
                   <th>{{$wisuda->nama_mahasiswa}}</th>
                   <td>{{$wisuda->jurusan}}</td>
                   <td>
-                    <button style="margin: 0px;height:30px;padding-top:5px" class="btn btn-danger" id="but_skip" data-id="{{$wisuda->antrian[0]->nim}}">Skip</button>
+                    <button style="margin: 0px;height:30px;padding-top:5px" class="btn btn-danger" id="but_skip" data-id="{{$wisuda->nim}}">Skip</button>
                     <div style="width:3%;display:inline-block"></div>
-                    <button style="margin: 0px;height:30px;padding-top:5px" class="btn" id="but_wid" data-id="{{$wisuda->antrian[0]->nim}}">Proses</button>
+                    <button style="margin: 0px;height:30px;padding-top:5px" class="btn" id="but_wid" data-id="{{$wisuda->nim}}">Proses</button>
                   </td>
                 </tr>
                 @endforeach
@@ -135,7 +131,7 @@
           <div class="modal-dialog" id="dialog">
             <div class="modal-content">
               <div class="card-header">
-                BUKTI PENGAMBILAN BERKAS KELULUSAN
+                BUKTI PENGAMBILAN PAKET WISUDA
               </div>
               <div class="card-body">
                 <form method="post" role="form" id="form-add" enctype="multipart/form-data">
@@ -151,9 +147,9 @@
                     <input class="form-control" style="font-weight:bold" type="text" name="nama" id="nama" placeholder="Nama Mahasiswa" readonly />
                   </div>
                   <div class="col-md-5 inline">
-                    <input class="form-control" type="text" name="sesi" id="sesi" placeholder="" readonly />
+                    <input class="form-control" type="text" name="uToga" id="uToga" placeholder="" readonly />
                   </div>
-                  <table style="width: 84%;">
+                  <table style="width: 84%">
                     <tr>
                       <td colspan="2">
                         <center>
@@ -168,37 +164,8 @@
                         <button style="padding: 8px 30px;width:25%" type="button" class="btn btn-danger" onclick="reset_cam()">Re-Take</button>
                       </td>
                     </tr>
-                    <tr>
-                      <td colspan="2" style="font-weight: bold;">Berkas yang diterima</td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left;">
-                        <input class="btn btn-primary" style="padding: 5px 30px;" type=button value="Check All" onclick="check_all()">
-                      </td>
-                    </tr>
-                    <tr>
-                      <?php
-                      $i = 1;
-                      $j = 0;
-                      $k = 1;
-                      ?>
-                      @foreach($data as $datas)
-                      @if ($j % 2 == 0 && $j != 0)
-                    </tr>
-                    <tr>
-                      <td class="table-berkas">
-                        <input id="berkas{{$k++}}" type="checkbox" name="berkas[]" value="{{$datas->id}}">&nbsp {{$i++}}. {{$datas->nam_berkas}}
-                      </td>
-                      @else
-                      <td class="table-berkas">
-                        <input id="berkas{{$k++}}" type="checkbox" name="berkas[]" value="{{$datas->id}}">&nbsp {{$i++}}. {{$datas->nam_berkas}}
-                      </td>
-                      @endif
-                      <?php $j++ ?>
-                      @endforeach
-                    </tr>
                   </table>
-
+                  <div style="padding-bottom: 20px;"></div>
                   <div class="card-footer">
                     <input onclick="window.location.href=window.location.href" style="padding: 8px 30px;width:20%" type="button" class="btn btn-danger" value="Clear Data">
                     <div style="width:5%;display:inline-block"></div>
@@ -333,7 +300,7 @@
       // Submit Form and upload file
       $.ajax({
         type: 'POST',
-        url: '{{ url("/store_antr64") }}',
+        url: '{{ url("/storePaket") }}',
         data: fd,
         processData: false,
         contentType: false,
@@ -413,7 +380,7 @@
 
       $.ajax({
         type: 'POST',
-        url: '/search64',
+        url: '/searchPaket',
         data: {
           '_token': "{{ csrf_token() }}",
           'nim': dataa,
@@ -422,37 +389,16 @@
           //console.log(data);
           // $('#myModal').modal('show');
           // //isi form
-          $('#id').val(data[1].id);
-          $('#nama').val(data[1].nama_mahasiswa);
-          $('#jurusan').val(data[1].jurusan);
-          $('#nim_r').val(data[1].nim);
+          $('#id').val(data.id);
+          $('#nama').val(data.nama_mahasiswa);
+          $('#jurusan').val(data.jurusan);
+          $('#nim_r').val(data.nim);
+          $('#uToga').val(data.uToga);
 
           id = $('#id').val();
           // $('.detail').show();
           $('#submitButton').show();
           $('#button_reset').show();
-          //console.log(data[1].antrian[0].keterangan.split(","))
-          var checkboxes = data[1].antrian[0].keterangan.split(",");
-          for (var i = 0; i < checkboxes.length; i++) {
-            $('#berkas' + checkboxes[i]).prop('checked', true);
-          }
-
-          // //menampilkan popup dulu
-          // if (checkboxes.length != 7) {
-          //   $('#CekBerkas').modal('show');
-          //   // mengambil elemen HTML dengan id "Berkas"
-          //   const elemenBerkas = document.getElementById("Berkas");
-          //   // melakukan forEach pada data dan menambahkan setiap elemen ke elemen HTML
-          //   data[0].forEach((item) => {
-          //     elemenBerkas.innerHTML += `<b>*</b> ${item.nam_berkas} <br>`;
-          //   });
-          //   $('#CekBerkas').on('hidden.bs.modal', function() {
-          //     // Logika untuk menampilkan modal #mymodal setelah modal #cekberkas ditutup
-          //     $('#myModal').modal('show');
-          //   });
-          // } else {
-          //   $('#myModal').modal('show');
-          // }
           $('#myModal').modal('show');
 
         },
@@ -469,7 +415,7 @@
     function skip(nim) {
       $.ajax({
         type: 'POST',
-        url: '/skip64',
+        url: '/skipPaket',
         data: {
           '_token': "{{ csrf_token() }}",
           'nim': nim,

@@ -35,15 +35,15 @@ class DaftarController extends Controller
 
     public function search_maha64(Request $request)
     {
-        // $get = DB::table('mahasiswa64')
-        //     ->where('nim', $request->nim)
-        //     ->first();
         $get = mahasiswa64::with('antrian')
             ->where('nim', $request->nim)
             ->first();
+        $berkas = DB::table('berkas')
+            ->whereNotIn('id', str_split($get->keterangan))
+            ->get();
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
-        return response()->json($get);
+        return response()->json([$berkas, $get]);
     }
 
     public function skip_maha64(Request $request)
