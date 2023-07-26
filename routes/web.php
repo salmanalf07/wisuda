@@ -100,9 +100,9 @@ Route::get('/sendsisa/w66', [AntrianController::class, 'send_total']);
 //Paket Wisuda
 Route::get('/paketWisuda/{wisuda}', function ($id) {
     $str = explode("-", $id);
-    if (!empty($str[1]) && !empty($str[2])) {
-        if (paketWisuda::where('wisuda', '=', $str[0])->count() > 0) {
-            $mahasiswa = paketWisuda::where('wisuda', '=', $str[0])
+    if ($id) {
+        if (paketWisuda::where('thWisuda', '=', $id)->count() > 0) {
+            $mahasiswa = paketWisuda::where('thWisuda', '=', $id)
                 ->where('skip', '=', null)
                 ->where('status', '=', 'open')
                 ->paginate(20);
@@ -118,8 +118,9 @@ Route::get('/paketWisuda/{wisuda}', function ($id) {
             ->paginate(20);
         return view('paketWisuda/v_paketWisuda', ['mahasiswa' => $mahasiswa]);
     }
-    //return $str;
+    // return $id;
 });
 Route::post('/skipPaket', [paketWisudaController::class, 'skip']);
 Route::post('/searchPaket', [paketWisudaController::class, 'search']);
 Route::post('/storePaket', [paketWisudaController::class, 'store']);
+Route::get('/r_paketWisuda/{wisuda}', [paketWisudaController::class, 'rPaketWisuda']);

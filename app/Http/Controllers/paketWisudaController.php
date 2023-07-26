@@ -6,6 +6,7 @@ use App\Models\paketWisuda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class paketWisudaController extends Controller
 {
@@ -51,5 +52,20 @@ class paketWisudaController extends Controller
 
 
         return response()->json($save);
+    }
+
+    function rPaketWisuda(Request $request, $id)
+    {
+        $mahasiswa = paketWisuda::where('thWisuda', '=', $id)
+            // ->where('skip', '=', null)
+            ->where('status', '=', 'open')->get();
+        // ->paginate(20);
+        // return view('paketWisuda/r_paketWisuda', ['mahasiswa' => $mahasiswa]);
+        $header = view('/paketWisuda/footer')->render();
+        $footer = view('/paketWisuda/header')->render();
+        $pdfContent = view('/paketWisuda/r_paketWisuda', $mahasiswa)->render();
+
+        $pdf = PDF::loadHTML($header . $pdfContent . $footer);
+        return $pdf->stream('nama_file_pdf.pdf');
     }
 }
