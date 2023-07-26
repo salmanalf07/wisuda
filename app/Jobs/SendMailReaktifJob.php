@@ -37,14 +37,14 @@ class SendMailReaktifJob implements ShouldQueue
      */
     public function handle()
     {
-        $pegawai = antrian64::find($this->data);
+        $pegawai = antrian64::with('mahasiswa')->find($this->data);
 
         $path = base_path('surat-piutang-B23.png');
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
         $pic = 'data:image/' . $type . ';base64,' . base64_encode($img);
 
-        $pathh = public_path() . '/assets/images64/' . $pegawai->bukti_pic;
+        $pathh = public_path() . '/assets/images/' . $pegawai->mahasiswa->card . '/' . $pegawai->bukti_pic;
         $typee = pathinfo($pathh, PATHINFO_EXTENSION);
         $imgg = file_get_contents($pathh);
         $picc = 'data:image/' . $typee . ';base64,' . base64_encode($imgg);
@@ -74,7 +74,7 @@ class SendMailReaktifJob implements ShouldQueue
 
         if ($get->email != null) {
             $dada['email'] = $get->email;
-            $dada['subject'] = "WISUDA 66";
+            $dada['subject'] = "WISUDA 67";
             $dada['nim'] = $pegawai->nim;
 
             Mail::send('emails.myTestMail', $dada, function ($message) use ($dada, $pdf) {
