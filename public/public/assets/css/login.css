@@ -1,0 +1,129 @@
+body {
+    background-image: url(../image/background.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+.wrapper-login {
+    max-width: 80%;
+    margin: 0px auto;
+    border: none;
+}
+
+.card-body {
+    text-align: center;
+}
+#dialog {
+    max-width: 890px;
+}
+.judul {
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    opacity: 50%;
+    color: antiquewhite;
+}
+.card-header {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.detail {
+    margin: 0 auto;
+    display: none;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.wrapper-login img {
+    margin-left: 5px;
+}
+
+#button_reset {
+    margin: 0 auto;
+    display: none;
+}
+
+#submitButton {
+    margin: 0 auto;
+    display: none;
+}
+
+.logo-login {
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+}
+
+.logo-p {
+    margin-left: 38px;
+}
+
+.form-login {
+    padding: 5px 30px;
+}
+
+.form-login img {
+    width: 20px;
+    height: 20px;
+}
+.form-text {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+.user {
+    width: 45px;
+}
+
+.btn-block {
+    padding: 10px;
+    font-size: 12px;
+    margin-bottom: 50px;
+}
+
+#nim {
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+#btn-pros {
+    padding: 3px;
+    margin: 0px;
+    width: 100%;
+}
+
+table {
+    margin-left: 70px;
+}
+
+.table-berkas {
+    text-align: left;
+    padding-left: 20px;
+    font-size: 10pt;
+}
+
+#myCanvas {
+    touch-action: none;
+    /*prevent canvas scrolling and system touch behavior*/
+    display: block;
+    /* This doesn't ensure background color saved in image.
+        background-color: tan;
+        See https://stackoverflow.com/questions/6957034/save-canvas-with-background-image
+    */
+}
+
+.tabtab tbody {
+    display: block;
+    height: 280px;
+    overflow: auto;
+}
+.tabtab thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;/* even columns width , fix width of table too*/
+}
