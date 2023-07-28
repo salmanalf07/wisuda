@@ -2,21 +2,23 @@
 <html>
 
 <head>
-    <title>PDF Footer</title>
+    <title>Footer</title>
+    <!-- Tambahkan CSS untuk desain footer -->
     <style>
-        /* CSS untuk mengatur posisi footer */
+        /* contoh CSS untuk desain footer */
         footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
     <footer>
-        <p style="text-align: center;">Footer Content</p>
+        <!-- Isi footer sesuai dengan kebutuhan Anda -->
+        <p>Ini adalah footer</p>
     </footer>
 </body>
 

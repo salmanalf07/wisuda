@@ -58,14 +58,22 @@ class paketWisudaController extends Controller
     {
         $mahasiswa = paketWisuda::where('thWisuda', '=', $id)
             // ->where('skip', '=', null)
-            ->where('status', '=', 'open')->get();
-        // ->paginate(20);
-        // return view('paketWisuda/r_paketWisuda', ['mahasiswa' => $mahasiswa]);
-        $header = view('/paketWisuda/footer')->render();
-        $footer = view('/paketWisuda/header')->render();
-        $pdfContent = view('/paketWisuda/r_paketWisuda', $mahasiswa)->render();
+            // ->where('status', '=', 'close')
+            ->get();
 
-        $pdf = PDF::loadHTML($header . $pdfContent . $footer);
+        // Membuat view untuk konten PDF dengan data mahasiswa
+        $pdfContent = view('paketWisuda.r_paketWisuda', ['mahasiswa' => $mahasiswa])->render();
+
+        // Membuat view untuk header dan footer
+        $headerContent = view('paketWisuda.header')->render();
+        $footerContent = view('paketWisuda.footer')->render();
+
+        $pdf = PDF::loadView('paketWisuda.pdf_template', [
+            'headerContent' => $headerContent, // Menggunakan header yang telah dibuat
+            'footerContent' => $footerContent, // Menggunakan footer yang telah dibuat
+            'mahasiswa' => $mahasiswa,
+            'pdfContent' => $pdfContent,
+        ]);
         return $pdf->stream('nama_file_pdf.pdf');
     }
 }

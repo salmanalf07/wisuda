@@ -2,21 +2,23 @@
 <html>
 
 <head>
-    <title>PDF Header</title>
+    <title>Header</title>
+    <!-- Tambahkan CSS untuk desain header -->
     <style>
-        /* CSS untuk mengatur posisi header */
+        /* contoh CSS untuk desain header */
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <p style="text-align: center;">Header Content</p>
+        <!-- Isi header sesuai dengan kebutuhan Anda -->
+        <h1>Ini adalah header</h1>
     </header>
 </body>
 

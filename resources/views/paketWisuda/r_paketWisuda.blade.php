@@ -10,7 +10,8 @@
             border: 1pt solid black !important;
             border-collapse: collapse;
             width: 100% !important;
-            white-space: nowrap !important
+            white-space: nowrap !important;
+            font-size: 6pt !important;
         }
 
         tr,
@@ -71,11 +72,19 @@
                 <td class="center">S1 (Sarjana)</td>
                 <td>{{ $row['jurusan'] }}</td>
                 <td class="center">{{ $row['uToga'] }}</td>
-                <td class="top-left" rowspan="2">{{ $row['bukti_pic'] }}</td>
+                <td class="top-left" rowspan="2">
+                    @if($row['bukti_pic'] != null)
+                    <img src="{{ asset('assets/images/paketWisuda/' . $row['thWisuda'] . '/' . $row['bukti_pic']) }}" width="100%" alt="" />
+                    @endif
+                </td>
                 @if (isset($mahasiswa[$key + 1]))
-                <td class="top-left" rowspan="2">{{ $mahasiswa[$key + 1]['bukti_pic'] }}</td>
+                <td class="top-left" rowspan="2">
+                    @if($mahasiswa[$key + 1]['bukti_pic'] != null )
+                    <img src="{{ asset('assets/images/paketWisuda/' . $mahasiswa[$key + 1]['thWisuda'] . '/' . $mahasiswa[$key + 1]['bukti_pic']) }}" width="100%" alt="" />
+                    @endif
+                </td>
                 @else
-                <td class="top-left" rowspan="2"></td>
+                <td class=" top-left" rowspan="2"></td>
                 @endif
             </tr>
             @else
@@ -95,6 +104,18 @@
             @endphp
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <td class="center"></td>
+                <td class="center"></td>
+                <td></td>
+                <td class="center"></td>
+                <td class="center"></td>
+                <td></td>
+                <td class="center"></td>
+            </tr>
+
+        </tfoot>
     </table>
 </body>
 
