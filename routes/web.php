@@ -71,7 +71,7 @@ Route::get('/wisuda/{wisuda65}', function ($id) {
                 })
                 ->paginate(20);
         }
-        return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
+        return view('wisuda64/v_daftar', ['data' => $get, 'wisudaa' => 'wisuda' . $str[0], 'mahasiswa' => $mahasiswa]);
     } elseif ($id == "cetak_pdf") {
         return App::call('App\Http\Controllers\AntrianController@cetak_pdf');
     } else {
@@ -81,7 +81,7 @@ Route::get('/wisuda/{wisuda65}', function ($id) {
                 $query->where('status', '=', 'open');
             })
             ->paginate(20);
-        return view('wisuda64/v_daftar', ['data' => $get, 'mahasiswa' => $mahasiswa]);
+        return view('wisuda64/v_daftar', ['data' => $get, 'wisudaa' => 'wisuda' . $str[0], 'mahasiswa' => $mahasiswa]);
     }
     //return $str;
 });

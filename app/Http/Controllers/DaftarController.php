@@ -37,7 +37,10 @@ class DaftarController extends Controller
     {
         $get = mahasiswa64::with('antrian')
             ->where('nim', $request->nim)
+            ->where('card', $request->wisuda)
             ->first();
+
+
         $berkas = DB::table('berkas')
             ->whereNotIn('id', str_split($get->keterangan))
             ->get();

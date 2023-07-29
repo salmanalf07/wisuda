@@ -32,6 +32,7 @@
       data: {
         '_token': "{{ csrf_token() }}",
         'nim': $('#nim').val(),
+        'wisuda': '{{$wisudaa}}',
       },
       success: function(dataa) {
         //console.log(data);
@@ -417,6 +418,7 @@
         data: {
           '_token': "{{ csrf_token() }}",
           'nim': dataa,
+          'wisuda': '{{$wisudaa}}',
         },
         success: function(data) {
           //console.log(data);
