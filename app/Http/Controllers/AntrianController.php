@@ -260,7 +260,10 @@ class AntrianController extends Controller
     {
 
         $nim_data = [
-            2301975354, 2301974111, 2101792643, 2101726490, 2440096010
+            2201749904,
+            2201744336,
+            2301874203
+
         ];
 
         $updsj = collect($nim_data)->filter()->all();
