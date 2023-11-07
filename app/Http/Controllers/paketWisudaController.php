@@ -41,7 +41,7 @@ class paketWisudaController extends Controller
         Storage::disk('public')->put('paketWisuda/' . $get->thWisuda . '/' . $filename,  File::get($cover));
         //ttd
         $ttd = $request->file('ttd');
-        $filenames = $request->nim_r . '-' . uniqid() . '- canvas.jpeg';
+        $filenames = $request->nim_r . '-' . uniqid() . '- canvas.png';
         Storage::disk('public')->put('paketWisuda/' . $get->thWisuda . '/ttd/' . $filenames,  File::get($ttd));
 
         if ($get) {
