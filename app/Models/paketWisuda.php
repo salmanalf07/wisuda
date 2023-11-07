@@ -20,6 +20,7 @@ class paketWisuda extends Model
         "campus",
         "email",
         "bukti_pic",
+        "bukti_ttd",
         "skip",
         "status",
         "keterangan",
