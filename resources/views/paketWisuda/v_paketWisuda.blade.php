@@ -49,22 +49,6 @@
         $('#submitButton').show();
         $('#button_reset').show();
 
-        // //menampilkan popup dulu
-        // if (checkboxes.length != 7) {
-        //   $('#CekBerkas').modal('show');
-        //   // mengambil elemen HTML dengan id "Berkas"
-        //   const elemenBerkas = document.getElementById("Berkas");
-        //   // melakukan forEach pada data dan menambahkan setiap elemen ke elemen HTML
-        //   dataa[0].forEach((item) => {
-        //     elemenBerkas.innerHTML += `<b>*</b> ${item.nam_berkas} <br>`;
-        //   });
-        //   $('#CekBerkas').on('hidden.bs.modal', function() {
-        //     // Logika untuk menampilkan modal #mymodal setelah modal #cekberkas ditutup
-        //     $('#myModal').modal('show');
-        //   });
-        // } else {
-        //   $('#myModal').modal('show');
-        // }
         $('#myModal').modal('show');
       },
     });
@@ -151,18 +135,29 @@
                   </div>
                   <table style="width: 84%">
                     <tr>
-                      <td colspan="2">
+                      <td>
                         <center>
                           <div id="my_camera"></div>
                         </center>
                       </td>
+                      <td>
+                        <h2 id="scribblePrompt" hidden>Scribble on the canvas:</h2>
+                        <div>
+                          <!-- <textarea class="form-control" name="keterangan" id="keterangan" cols="36" rows="10" placeholder="Keterangan"></textarea> -->
+                          <canvas id="myCanvas" width="342" height="256" style="border:1px solid #d3d3d3;">
+                            Your browser does not support the canvas element.
+                          </canvas>
+                          <a id="link"></a>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
-                      <td colspan="2">
-                        <input style="padding: 8px 30px;width:25%" class="btn btn-primary" type=button value="Take Snapshot" onClick="take_snapshot()">
+                      <td>
+                        <input style="padding: 8px 30px;width:40%" class="btn btn-primary" type=button value="Take Snapshot" onClick="take_snapshot()">
                         <div style="width:5%;display:inline-block"></div>
-                        <button style="padding: 8px 30px;width:25%" type="button" class="btn btn-danger" onclick="reset_cam()">Re-Take</button>
+                        <button style="padding: 8px 30px;width:40%" type="button" class="btn btn-danger" onclick="reset_cam()">Re-Take</button>
                       </td>
+                      <td><button style="padding: 5px 30px;" type="button" class="btn" onclick="clearCanvas()">Clear</button></td>
                     </tr>
                   </table>
                   <div style="padding-bottom: 20px;"></div>
@@ -226,6 +221,7 @@
   <script src="/assets/js/bootstrap.min.js"></script>
   <!-- Webcam.min.js -->
   <script type="text/javascript" src="/assets/webcamjs/webcam.min.js"></script>
+  <script src="/assets/wacom/connect-wacom.js"></script>
 
   <script>
     var input = document.getElementById("nim");
@@ -265,37 +261,37 @@
 
     $("#form-add").submit(function(e) {
       e.preventDefault();
-      // saveCanvas()
+      saveCanvas()
       var uri = $('#img').attr('src');
-      // var canvas = document.getElementById("link").href;
-      // appendFileAndSubmit(uri, canvas);
-      appendFileAndSubmit(uri);
+      var canvas = document.getElementById("link").href;
+      appendFileAndSubmit(uri, canvas);
+      // appendFileAndSubmit(uri);
     });
 
-    function appendFileAndSubmit(uri) {
+    function appendFileAndSubmit(uri, canvas) {
       // Get the form
       var form = document.getElementById("form-add");
 
       var ImageURL = uri;
-      // var ImageURLs = canvas;
+      var ImageURLs = canvas;
       // Split the base64 string in data and contentType
       var block = ImageURL.split(";");
-      // var blocks = ImageURLs.split(";");
+      var blocks = ImageURLs.split(";");
       // Get the content type
       var contentType = block[0].split(":")[1]; // In this case "image/gif"
-      // var contentTypes = 'png'; // In this case "image/gif"
+      var contentTypes = 'png'; // In this case "image/gif"
       // get the real base64 content of the file
       var realData = block[1].split(",")[1]; // In this case "iVBORw0KGg...."
-      // var realDatas = blocks[1].split(",")[1]; // In this case "iVBORw0KGg...."
+      var realDatas = blocks[1].split(",")[1]; // In this case "iVBORw0KGg...."
 
       // Convert to blob
       var blob = b64toBlob(realData, contentType);
-      // var ttd = b64toBlob(realDatas, contentTypes);
+      var ttd = b64toBlob(realDatas, contentTypes);
 
       // Create a FormData and append the file
       var fd = new FormData(form);
       fd.append("image", blob);
-      // fd.append("ttd", ttd);
+      fd.append("ttd", ttd);
 
       // Submit Form and upload file
       $.ajax({

@@ -13,8 +13,10 @@ class paketWisuda extends Model
     protected $fillable = [
         "thWisuda",
         "nim",
-        "jurusan",
         "nama_mahasiswa",
+        "acadCareer",
+        "acadGroup",
+        "jurusan",
         "campus",
         "email",
         "bukti_pic",

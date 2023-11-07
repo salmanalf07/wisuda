@@ -15,6 +15,8 @@ class mahasiswa64 extends Model
         'card',
         'nim',
         'nama_mahasiswa',
+        "acadCareer",
+        "acadGroup",
         'jurusan',
         'email',
         'loket',

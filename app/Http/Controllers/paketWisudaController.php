@@ -39,12 +39,17 @@ class paketWisudaController extends Controller
         $filename = $request->nim_r . '-' . uniqid() . '.jpeg';
         //$extension = $cover->getClientOriginalExtension();
         Storage::disk('public')->put('paketWisuda/' . $get->thWisuda . '/' . $filename,  File::get($cover));
+        //ttd
+        $ttd = $request->file('ttd');
+        $filenames = $request->nim_r . '-' . uniqid() . '- canvas.jpeg';
+        Storage::disk('public')->put('paketWisuda/' . $get->thWisuda . '/ttd/' . $filenames,  File::get($ttd));
 
         if ($get) {
 
             $save = paketWisuda::findOrFail($get->id);
             $save->nim = $request->nim_r;
             $save->bukti_pic = $filename;
+            $save->bukti_ttd = $filenames;
             $save->status = "close";
             $save->user = $request->ip();
             $save->save();
