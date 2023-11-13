@@ -220,7 +220,7 @@
         <div class="tengah">
             <P class="bukti">TANDA TERIMA</P>
             <P class="bukti">DOKUMEN BERKAS KELULUSAN</P>
-            <p class="bukti">PERIODE WISUDA 67</p>
+            <p class="bukti">PERIODE WISUDA {{$thWisuda}}</p>
             <br>
             <div class="foto">
                 <center>

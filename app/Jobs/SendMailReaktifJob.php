@@ -68,13 +68,14 @@ class SendMailReaktifJob implements ShouldQueue
         } else {
             $tempat = $str[1];
         }
+        $wisuda = preg_split('/(?<=\D)(?=\d)|(?<=\d)(?=\D)/', $get->card);
 
-        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa, 'tempat' => $tempat]);
+        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa, 'tempat' => $tempat, 'thWisuda' => $wisuda[1]]);
 
 
         if ($get->email != null) {
             $dada['email'] = $get->email;
-            $dada['subject'] = "WISUDA 67";
+            $dada['subject'] = "WISUDA " . $wisuda[1];
             $dada['nim'] = $pegawai->nim;
 
             Mail::send('emails.myTestMail', $dada, function ($message) use ($dada, $pdf) {
