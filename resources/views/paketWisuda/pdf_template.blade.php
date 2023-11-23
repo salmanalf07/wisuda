@@ -26,7 +26,7 @@
             /* Margin atas sebesar 150px dari header */
             margin-top: 50px;
             /* Margin bawah sebesar 50px dari footer */
-            margin-bottom: 20px;
+            margin-bottom: 50px;
         }
 
         .footer {
