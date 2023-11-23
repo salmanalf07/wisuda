@@ -1,10 +1,20 @@
-SELECT * FROM antrian64, mahasiswa64 WHERE antrian64.`nim` = mahasiswa64.`nim` AND mahasiswa64.`card` = "wisuda66";
+SELECT * FROM antrian64, mahasiswa64 WHERE antrian64.`nim` = mahasiswa64.`nim` AND mahasiswa64.`card` = "wisuda68";
+
 #untuk count yang sudah ambil
-    SELECT * FROM antrian64, mahasiswa64 WHERE antrian64.`nim` = mahasiswa64.`nim` AND mahasiswa64.`card` = "wisuda66" AND antrian64.`status` = "close" AND mahasiswa64.`sesi` = 2;
-    #untuk count loket A
-    SELECT * FROM antrian64, mahasiswa64 WHERE antrian64.`nim` = mahasiswa64.`nim` AND mahasiswa64.`card` = "wisuda66" AND antrian64.`status` = "close" AND mahasiswa64.`loket` = "A";
+ SELECT * FROM antrian64, mahasiswa64 WHERE antrian64.`nim` = mahasiswa64.`nim` AND mahasiswa64.`card` = "wisuda68" AND antrian64.`status` = "open" AND mahasiswa64.`sesi` = 5;
     
-    #untuk count loket B
-    SELECT * FROM antrian64, mahasiswa64 WHERE antrian64.`nim` = mahasiswa64.`nim` AND mahasiswa64.`card` = "wisuda66" AND antrian64.`status` = "close" AND mahasiswa64.`loket` = "B";
+#untuk count loket A
+    SELECT * FROM antrian64, mahasiswa64 WHERE antrian64.`nim` = mahasiswa64.`nim` AND mahasiswa64.`card` = "wisuda68" AND antrian64.`status` = "close" AND mahasiswa64.`loket` = "A";
     
-    ALTER TABLE BERKAS AUTO_INCREMENT = 7
+#untuk count loket B
+    SELECT * FROM antrian64, mahasiswa64 WHERE antrian64.`nim` = mahasiswa64.`nim` AND mahasiswa64.`card` = "wisuda68" AND antrian64.`status` = "close" AND mahasiswa64.`loket` = "B";
+    
+ALTER TABLE BERKAS AUTO_INCREMENT = 7
+    
+#untuk update data 
+UPDATE antrian64
+SET SKIP = "(NULL)"
+WHERE nim IN (
+'2301947943'
+
+);

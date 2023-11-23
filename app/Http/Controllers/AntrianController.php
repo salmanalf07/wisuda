@@ -260,9 +260,8 @@ class AntrianController extends Controller
     {
 
         $nim_data = [
-            2201749904,
-            2201744336,
-            2301874203
+            2301865653
+
 
         ];
 
