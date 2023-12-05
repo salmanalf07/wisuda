@@ -76,6 +76,7 @@ Route::get('/wisuda/{wisuda65}', function ($id) {
         return App::call('App\Http\Controllers\AntrianController@cetak_pdf');
     } else {
         $mahasiswa = mahasiswa64::with('antrian')
+            ->where('card', 'wisuda' . $str[0])
             ->whereHas('antrian', function ($query) {
                 $query->where('skip', '=', null);
                 $query->where('status', '=', 'open');
