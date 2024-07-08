@@ -65,6 +65,8 @@
                   <select class="form-control" name="status" id="status" cols="1" rows="1">
                     <option value="#" selected>--PILIH--</option>
                     <option value="skip">Skip</option>
+                    <option value="open">Open</option>
+                    <option value="close">Close</option>
                   </select>
                 </div>
               </div>
