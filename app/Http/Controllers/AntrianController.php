@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Models\AntrianModels;
+use App\Models\mahasiswa64;
 use Barryvdh\DomPDF\Facade as PDF;
+use Yajra\DataTables\DataTables;
 
 class AntrianController extends Controller
 {
@@ -279,5 +281,28 @@ class AntrianController extends Controller
         }
 
         return $updsj;
+    }
+
+    public function listWisuda(Request $request, $thWisuda)
+    {
+        $dataa = mahasiswa64::with('antrian')->where('card', 'wisuda' . $thWisuda)
+            ->where(function ($query) use ($request) {
+                if ($request->shift != "#" && $request->shift) {
+                    $query->where('sesi', $request->shift);
+                }
+
+                if ($request->loket != "#" && $request->loket) {
+                    $query->where('loket', $request->loket);
+                }
+            })
+            ->whereHas('antrian', function ($query) use ($request) {
+                if ($request->status != "#" && $request->status == "skip") {
+                    $query->where('skip', 1);
+                }
+            })
+            ->get();
+
+        return DataTables::of($dataa)
+            ->toJson();
     }
 }

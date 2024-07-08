@@ -84,9 +84,9 @@
     <param name="onload" value="pluginLoaded" />
   </object>
   <div class="container">
-    <div class="wrapper-login">
+    <div class="wrapper-login" style="max-width: 100%">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10" style="margin: 0 auto;">
           <div class="card card-chart">
             <div class="card-header card-header-" style="background-color:  #c1a1d3;color:black">
               DAFTAR ANTRIAN
@@ -109,6 +109,7 @@
               <thead>
                 <tr>
                   <th>NIM</th>
+                  <th>NO KURSI</th>
                   <th>NAMA</th>
                   <th>JURUSAN</th>
                   <th>AKSI</th>
@@ -118,7 +119,8 @@
                 @foreach($mahasiswa as $wisuda)
                 <tr>
                   <th>{{$wisuda->nim}}</th>
-                  <th>{{$wisuda->nama_mahasiswa}}</th>
+                  <th>{{$wisuda->noKursi}}</th>
+                  <th class="text-left">{{$wisuda->nama_mahasiswa}}</th>
                   <td>{{$wisuda->jurusan}}</td>
                   <td>
                     <button style="margin: 0px;height:30px;padding-top:5px" class="btn btn-danger" id="but_skip" data-id="{{$wisuda->antrian[0]->nim}}">Skip</button>

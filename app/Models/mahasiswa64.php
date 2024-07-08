@@ -14,6 +14,7 @@ class mahasiswa64 extends Model
     protected $fillable = [
         'card',
         'nim',
+        'noKursi',
         'nama_mahasiswa',
         "acadCareer",
         "acadGroup",

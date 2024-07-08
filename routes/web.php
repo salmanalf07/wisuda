@@ -96,6 +96,12 @@ Route::get('/sendsisa/w66', [AntrianController::class, 'send_total']);
 // });
 // Route::get('/dashboard', [AntrianController::class, 'dashboard']);
 // Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
+Route::get('/listWusudawan/{wisuda65}', function ($id) {
+
+    return view('wisuda64/v_listWisudawan', ['thWisuda' => $id]);
+    //return $str;
+});
+Route::get('/get_listWusudawan/{thWisuda}', [AntrianController::class, 'listWisuda']);
 //end wisuda 64
 
 //Paket Wisuda

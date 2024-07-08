@@ -146,17 +146,17 @@
             <div class="modal-content">
               <div class="card-body">
                 <div>
-                <img id="svgResult" src="" alt="" width="150">
-                <p id="hasil"></p>
+                  <img id="svgResult" src="" alt="" width="150">
+                  <p id="hasil"></p>
                 </div>
-                
-                  <div class="card-footer">
-                    <button onclick="window.location.href=window.location.href" class="btn btn-danger" style="padding: 5px 30px;">
-                      Close
-                    </button>
-                    <a id="linkCetak" href="" class="btn btn-primary" style="padding: 5px 20px;">CETAK PDF</a>
-                    
-                  </div>
+
+                <div class="card-footer">
+                  <button onclick="window.location.href=window.location.href" class="btn btn-danger" style="padding: 5px 30px;">
+                    Close
+                  </button>
+                  <a id="linkCetak" href="" class="btn btn-primary" style="padding: 5px 20px;">CETAK PDF</a>
+
+                </div>
               </div>
             </div>
           </div>
@@ -246,7 +246,7 @@
           //window.location.href = "/";
           $('#myModal').modal('hide');
           $('#ModalSucces').modal('show');
-          $('#svgResult').attr("src","/assets/image/succes.svg");
+          $('#svgResult').attr("src", "/assets/image/succes.svg");
           $('#linkCetak').attr("href", "/cetak/" + data.id);
           $('#hasil').text('Data Berhasil Disimpan');
 
@@ -260,11 +260,11 @@
           // }, 500);
 
         },
-        error: function(){
+        error: function() {
           document.getElementById("form-add").reset();
           $('#myModal').modal('hide');
           $('#ModalSucces').modal('show');
-          $("#svgResult").attr("src","/assets/image/remove.svg");
+          $("#svgResult").attr("src", "/assets/image/remove.svg");
           $('#linkCetak').hide();
           $('#hasil').text('Data Gagal Disimpan');
         }
@@ -328,6 +328,8 @@
           '_token': "{{ csrf_token() }}",
           'antr_one': "{{$antrian_oneid}}",
         },
+        processData: false,
+        contentType: false,
         success: function(data) {
           //console.log(data);
           $('#myModal').modal('show');
