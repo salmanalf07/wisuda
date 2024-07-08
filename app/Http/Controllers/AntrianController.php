@@ -299,7 +299,7 @@ class AntrianController extends Controller
                 if ($request->status != "#" && $request->status == "skip") {
                     $query->where('skip', 1);
                 }
-                if ($request->status != "#" && $request->status != "skip") {
+                if ($request->status != "#" && $request->status == "open" || $request->status == "close") {
                     $query->where('status', $request->status);
                 }
             })
