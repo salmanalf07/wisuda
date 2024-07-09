@@ -168,7 +168,7 @@ class AntrianController extends Controller
             }
             $save->user = $request->ip();
             $save->save();
-            if ($get->email) {
+            if ($get->email && $get->keterangan != 11) {
                 SendMailReaktifJob::dispatch($get_id->id);
             }
         } else {
@@ -185,7 +185,7 @@ class AntrianController extends Controller
             $save->user = $request->ip();
             $save->save();
 
-            if ($get->email) {
+            if ($get->email && $get->keterangan != 11) {
                 SendMailReaktifJob::dispatch($save->id);
             }
         }
