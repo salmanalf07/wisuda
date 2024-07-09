@@ -51,7 +51,7 @@ class DaftarController extends Controller
 
     public function skip_maha64(Request $request)
     {
-        $get = antrian64::where('nim', $request->nim)
+        $get = antrian64::with('mahasiswa')->where([['nim', $request->nim], ['thwisuda', 'wisuda' . $request->thwisuda]])
             ->update([
                 'skip' => 1,
             ]);

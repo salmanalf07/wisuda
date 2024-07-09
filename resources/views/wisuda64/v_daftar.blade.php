@@ -477,6 +477,7 @@
         data: {
           '_token': "{{ csrf_token() }}",
           'nim': nim,
+          'thWisuda': '{{$thWisuda}}',
         },
         success: function(dataa) {
           location.reload();

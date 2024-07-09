@@ -124,7 +124,7 @@
             "targets": [0, 1, 4], // table ke 1
           },
           {
-            "className": "text-left",
+            "className": "text-center",
             "targets": [2, 3], // table ke 1
           },
         ],
@@ -156,8 +156,8 @@
             name: 'jurusan'
           },
           {
-            data: 'keterangan',
-            name: 'keterangan'
+            data: 'aksi',
+            name: 'aksi'
           }
         ],
       });
@@ -179,6 +179,23 @@
       $('#status').val('#').trigger('change');
       $('#example1').data('dt_params', {});
       $('#example1').DataTable().draw();
+    });
+
+    $(document).on('click', '#but_skip', function(e) {
+      e.preventDefault();
+      var nim = $(this).data('id');
+      $.ajax({
+        type: 'POST',
+        url: '/skip64',
+        data: {
+          '_token': "{{ csrf_token() }}",
+          'nim': nim,
+          'thWisuda': '{{$thWisuda}}',
+        },
+        success: function(dataa) {
+          location.reload();
+        },
+      });
     });
   </script>
 

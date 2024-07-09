@@ -306,6 +306,10 @@ class AntrianController extends Controller
             ->get();
 
         return DataTables::of($dataa)
-            ->toJson();
+            ->addColumn('aksi', function ($data) {
+                return '<button style="margin: 0px;height:30px;padding-top:5px" class="btn btn-danger" id="but_skip" data-id="' . $data->nim . '">Skip</button>';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 }
