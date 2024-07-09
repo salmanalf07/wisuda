@@ -199,14 +199,14 @@ class AntrianController extends Controller
 
     public function cetak_pdf()
     {
-        $pegawai = antrian64::find(8703);
+        $pegawai = antrian64::find(18353);
 
         $path = base_path('surat-piutang-B23.png');
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
         $pic = 'data:image/' . $type . ';base64,' . base64_encode($img);
 
-        $pathh = public_path() . '/assets/images/wisuda65/' . $pegawai->bukti_pic;
+        $pathh = public_path() . '/assets/images/'. $pegawai->thwisuda .'/'. $pegawai->bukti_pic;
         $typee = pathinfo($pathh, PATHINFO_EXTENSION);
         $imgg = file_get_contents($pathh);
         $picc = 'data:image/' . $typee . ';base64,' . base64_encode($imgg);
@@ -216,9 +216,8 @@ class AntrianController extends Controller
             ->first();
 
         $berkas = DB::table('berkas')
-            ->whereIn('id', str_split($pegawai->keterangan))
+            ->whereIn('id', explode(",", $pegawai->keterangan))
             ->get();
-
         $date = date("d m Y H:i", strtotime($pegawai->updated_at));
 
         $str = explode(" ", $get->campus);
@@ -231,7 +230,10 @@ class AntrianController extends Controller
             $tempat = $str[1];
         }
 
-        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa, 'tempat' => $tempat]);
+        $wisuda = preg_split('/(?<=\D)(?=\d)|(?<=\d)(?=\D)/', $get->card);
+
+
+        $pdf = PDF::setOptions(['defaultFont' => 'sans-serif'])->loadView('wisuda64/v_wacom', compact('pic', 'picc'), ['data' => $pegawai, 'berkas' => $berkas, 'tanggal' => $date, 'nama' => $get->nama_mahasiswa, 'tempat' => $tempat,'thWisuda' => $wisuda[1]]);
         return $pdf->stream('laporan-pegawai-pdf');
     }
 

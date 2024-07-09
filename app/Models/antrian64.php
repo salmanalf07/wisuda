@@ -13,6 +13,7 @@ class antrian64 extends Model
 
     protected $fillable = [
         'nim',
+        'thWisuda',
         'bukti_pic',
         'ttd',
         'status',

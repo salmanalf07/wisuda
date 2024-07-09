@@ -54,7 +54,7 @@ class SendMailReaktifJob implements ShouldQueue
             ->first();
 
         $berkas = DB::table('berkas')
-            ->whereIn('id', str_split($pegawai->keterangan))
+            ->whereIn('id', explode(",", $pegawai->keterangan))
             ->get();
 
         $date = date("d m Y H:i", strtotime($pegawai->updated_at));
