@@ -89,6 +89,7 @@ Route::get('/wisuda/{wisuda65}', function ($id) {
 Route::post('/search64', [DaftarController::class, 'search_maha64']);
 Route::post('/skip64', [DaftarController::class, 'skip_maha64']);
 Route::post('/store_antr64', [AntrianController::class, 'store_antr64']);
+Route::post('/upd_berkas', [AntrianController::class, 'upd_berkas']);
 Route::get('/cetak_pdf', [AntrianController::class, 'cetak_pdf']);
 Route::get('/sendsisa/w66', [AntrianController::class, 'send_total']);
 // Route::get('/wacom', function () {
@@ -97,8 +98,11 @@ Route::get('/sendsisa/w66', [AntrianController::class, 'send_total']);
 // Route::get('/dashboard', [AntrianController::class, 'dashboard']);
 // Route::get('/cetak/{id}', [AntrianController::class, 'cetak_page']);
 Route::get('/listWusudawan/{wisuda65}', function ($id) {
+    $get = DB::table('berkas')
+        ->get();
+    $str = explode("-", $id);
 
-    return view('wisuda64/v_listWisudawan', ['thWisuda' => $id]);
+    return view('wisuda64/v_listWisudawan', ['thWisuda' => $id,'data' => $get,]);
     //return $str;
 });
 Route::get('/get_listWusudawan/{thWisuda}', [AntrianController::class, 'listWisuda']);

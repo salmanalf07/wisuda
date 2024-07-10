@@ -76,10 +76,11 @@
           </div>
         </div>
         <div class="col-md-12">
-          <div class="card card-chart">
+          <div class="card card-chart"> 
             <table id="example1" class="table tabtab">
               <thead>
                 <tr>
+                  <th>SESI</th>
                   <th>NIM</th>
                   <th>NO KURSI</th>
                   <th>NAMA</th>
@@ -92,7 +93,70 @@
           </div>
         </div>
 
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none ;" class=" col-md-12 detail">
+          <div class="modal-dialog" id="dialog">
+            <div class="modal-content">
+              <div class="card-header">
+                BUKTI PENGAMBILAN BERKAS KELULUSAN
+              </div>
+              <div class="card-body">
+                <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+                  @csrf
+                  <input class="form-control" type="text" name="id" id="id" hidden />
+                  <div class="col-md-5 inline">
+                    <input class="form-control" type="text" name="nim_r" id="nim_r" placeholder="NIM" readonly />
+                  </div>
+                  <div class="col-md-5 inline">
+                    <input class="form-control" type="text" name="jurusan" id="jurusan" placeholder="Fakultas-Jurusan" readonly />
+                  </div>
+                  <div class="col-md-5 inline">
+                    <input class="form-control" style="font-weight:bold" type="text" name="nama" id="nama" placeholder="Nama Mahasiswa" readonly />
+                  </div>
+                  <div class="col-md-5 inline">
+                    <input class="form-control" type="text" name="sesi" id="sesi" placeholder="" readonly />
+                  </div>
+                  <table style="width: 84%;">
+                    <tr class="mt-5">
+                      <td colspan="2" style="font-weight: bold;">Berkas yang diterima</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left;">
+                        <input class="btn btn-primary" style="padding: 5px 30px;" type=button value="Check All" onclick="check_all()">
+                      </td>
+                    </tr>
+                    <tr>
+                      <?php
+                      $i = 1;
+                      $j = 0;
+                      $k = 1;
+                      ?>
+                      @foreach($data as $datas)
+                      @if ($j % 2 == 0 && $j != 0)
+                    </tr>
+                    <tr>
+                      <td class="table-berkas">
+                        <input id="berkas{{$k++}}" type="checkbox" name="berkas[]" value="{{$datas->id}}">&nbsp {{$i++}}. {{$datas->nam_berkas}}
+                      </td>
+                      @else
+                      <td class="table-berkas">
+                        <input id="berkas{{$k++}}" type="checkbox" name="berkas[]" value="{{$datas->id}}">&nbsp {{$i++}}. {{$datas->nam_berkas}}
+                      </td>
+                      @endif
+                      <?php $j++ ?>
+                      @endforeach
+                    </tr>
+                  </table>
 
+                  <div class="card-footer">
+                    <input onclick="window.location.href=window.location.href" style="padding: 8px 30px;width:20%" type="button" class="btn btn-danger" value="Clear Data">
+                    <div style="width:5%;display:inline-block"></div>
+                    <button style="padding: 8px 30px;width:20%" type="submit" id="submitButton" class="btn btn-primary">SEND DATA</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -121,11 +185,7 @@
         "autoWidth": false,
         "columnDefs": [{
             "className": "text-center",
-            "targets": [0, 1, 4], // table ke 1
-          },
-          {
-            "className": "text-center",
-            "targets": [2, 3], // table ke 1
+            "targets": [0, 1, 2, 3, 4, 5], // table ke 1
           },
         ],
         ajax: {
@@ -140,6 +200,10 @@
           }
         },
         columns: [{
+            data: 'sesi',
+            name: 'sesi'
+          },
+          {
             data: 'nim',
             name: 'nim'
           },
@@ -193,8 +257,89 @@
           'thWisuda': '{{$thWisuda}}',
         },
         success: function(dataa) {
-          location.reload();
+          $('#example1').DataTable().ajax.reload();
         },
+      });
+    });
+
+    $(document).on('click', '#but_wid', function(e) {
+      e.preventDefault();
+      var uid = $(this).data('id');
+
+      $.ajax({
+          type: 'POST',
+          url: '/search64',
+          data: {
+            '_token': "{{ csrf_token() }}",
+            'nim': uid,
+            'wisuda': 'wisuda' + '{{$thWisuda}}',
+          },
+          success: function(data) {
+            //console.log(data);
+            // $('#myModal').modal('show');
+            // //isi form
+            $('#id').val(data[1].id);
+            $('#nama').val(data[1].nama_mahasiswa);
+            $('#jurusan').val(data[1].jurusan);
+            $('#nim_r').val(data[1].nim);
+            $('#sesi'). val(data[1].noKursi)
+  
+            id = $('#id').val();
+            // $('.detail').show();
+            $('#submitButton').show();
+            $('#button_reset').show();
+            //console.log(data[1].antrian[0].keterangan.split(","))
+            var checkboxes = data[1].antrian[0].keterangan.split(",");
+            for (var i = 0; i < checkboxes.length; i++) {
+              $('#berkas' + checkboxes[i]).prop('checked', true);
+            }
+  
+            $('#myModal').modal('show');
+  
+          },
+        });
+    });
+    $("#form-add").submit(function(e) {
+      e.preventDefault();
+      var form = document.getElementById("form-add");
+      var fd = new FormData(form);
+
+      $.ajax({
+        type: 'POST',
+        url: '/upd_berkas',
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          console.log(data);
+          document.getElementById("form-add").reset();
+          //window.location.href = "/cetak/" + data.id;
+          //window.location.href = "/";
+          $('#myModal').modal('hide');
+          $('#ModalSucces').modal('show');
+          // $('#svgResult').attr("src", "/assets/image/succes.svg");
+          // $('#linkCetak').attr("href", "/cetak/" + data.id);
+          $('#hasil').text('Data Berhasil Disimpan');
+
+          // window.open(
+          //   '/cetak/' + data.id,
+          //   '_blank' // <- This is what makes it open in a new window.
+          // );
+
+          setInterval(() => {
+            // window.location.href = "wisuda64";
+            location.reload();
+          }, 500);
+
+        },
+        error: function() {
+          document.getElementById("form-add").reset();
+          $('#myModal').modal('hide');
+          $('#ModalSucces').modal('show');
+          // $("#svgResult").attr("src", "/assets/image/remove.svg");
+          $('#linkCetak').hide();
+          $('#hasil').text('Data Gagal Disimpan');
+        }
       });
     });
   </script>

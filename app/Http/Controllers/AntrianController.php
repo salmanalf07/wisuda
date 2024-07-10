@@ -303,15 +303,42 @@ class AntrianController extends Controller
                 }
                 if ($request->status != "#" && $request->status == "open" || $request->status == "close") {
                     $query->where('status', $request->status);
+                    $query->where('skip' , null);
                 }
             })
             ->get();
 
         return DataTables::of($dataa)
             ->addColumn('aksi', function ($data) {
-                return '<button style="margin: 0px;height:30px;padding-top:5px" class="btn btn-danger" id="but_skip" data-id="' . $data->nim . '">Skip</button>';
+                return '<button style="width:5em;padding:10px" class="btn btn-danger m-1" id="but_skip" data-id="' . $data->nim . '">Skip</button>
+                        <button style="width:5em;padding:10px" class="btn btn-info m-1" id="but_wid" data-id="' . $data->nim . '">Detail</button>
+                ';
             })
             ->rawColumns(['aksi'])
             ->make(true);
+    }
+
+    public function upd_berkas(Request $request) {
+        $get_id = DB::table('antrian64')
+            ->where('nim', $request->nim_r)
+            ->first();
+            
+        $save = antrian64::findOrNew($get_id->id);
+        // $save->id = $request->id;
+        $save->nim = $request->nim_r;
+        $save->status = "close";
+        if ($request->berkas) {
+            $keterangan = implode(",", $request->berkas);
+        } else {
+            $keterangan = "";
+        }
+        if ($save->keterangan != $keterangan) {
+            $save->keterangan = $keterangan;
+        }
+        $save->save();
+
+
+
+        return response()->json($save);
     }
 }
