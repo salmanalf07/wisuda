@@ -248,12 +248,14 @@
     $(document).on('click', '#but_skip', function(e) {
       e.preventDefault();
       var nim = $(this).data('id');
+      var status = $(this).data('status');
       $.ajax({
         type: 'POST',
         url: '/skip64',
         data: {
           '_token': "{{ csrf_token() }}",
           'nim': nim,
+          'status':status,
           'thWisuda': '{{$thWisuda}}',
         },
         success: function(dataa) {

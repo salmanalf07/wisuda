@@ -51,6 +51,7 @@ class DaftarController extends Controller
 
     public function skip_maha64(Request $request)
     {
+        $status = $request->status == 'Skip' ? 1: Null ;
         $get = antrian64::with('mahasiswa')->where(
             [
                 ['nim', '=', $request->nim],
@@ -58,7 +59,7 @@ class DaftarController extends Controller
             ]
         )
             ->update([
-                'skip' => 1,
+                'skip' => $status,
             ]);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data

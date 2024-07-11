@@ -43,6 +43,7 @@
         $('#nama').val(dataa[1].nama_mahasiswa);
         $('#jurusan').val(dataa[1].jurusan);
         $('#nim_r').val(dataa[1].nim);
+        $('#thWisuda').val(dataa[1].card + " - " + dataa[1].noKursi);
 
         id = $('#id').val();
         // $('.detail').show();
@@ -123,7 +124,7 @@
                   <th class="text-left">{{$wisuda->nama_mahasiswa}}</th>
                   <td>{{$wisuda->jurusan}}</td>
                   <td>
-                    <button style="margin: 0px;height:30px;padding-top:5px" class="btn btn-danger" id="but_skip" data-id="{{$wisuda->antrian[0]->nim}}">Skip</button>
+                    <button style="margin: 0px;height:30px;padding-top:5px" class="btn btn-danger" id="but_skip" data-status='Skip' data-id="{{$wisuda->antrian[0]->nim}}">Skip</button>
                     <div style="width:3%;display:inline-block"></div>
                     <button style="margin: 0px;height:30px;padding-top:5px" class="btn" id="but_wid" data-id="{{$wisuda->antrian[0]->nim}}">Proses</button>
                   </td>
@@ -154,7 +155,7 @@
                     <input class="form-control" style="font-weight:bold" type="text" name="nama" id="nama" placeholder="Nama Mahasiswa" readonly />
                   </div>
                   <div class="col-md-5 inline">
-                    <input class="form-control" type="text" name="sesi" id="sesi" placeholder="" readonly />
+                    <input class="form-control" type="text" name="thWisuda" id="thWisuda" placeholder="" readonly />
                   </div>
                   <table style="width: 84%;">
                     <tr>
@@ -430,6 +431,7 @@
           $('#nama').val(data[1].nama_mahasiswa);
           $('#jurusan').val(data[1].jurusan);
           $('#nim_r').val(data[1].nim);
+          $('#thWisuda').val(data[1].card + " - " + data[1].noKursi);
 
           id = $('#id').val();
           // $('.detail').show();
@@ -467,23 +469,22 @@
     $(document).on('click', '#but_skip', function(e) {
       e.preventDefault();
       var uidd = $(this).data('id');
-      skip(uidd);
-    });
+      var status = $(this).data('status');
 
-    function skip(nim) {
       $.ajax({
         type: 'POST',
         url: '/skip64',
         data: {
           '_token': "{{ csrf_token() }}",
-          'nim': nim,
+          'nim': uidd,
+          'status' : status,
           'thWisuda': '{{$thWisuda}}',
         },
         success: function(dataa) {
           location.reload();
         },
       });
-    }
+    });
 
     function check_all() {
       var checkboxes = document.getElementsByName('berkas[]');

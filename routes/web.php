@@ -60,7 +60,8 @@ Route::get('/wisuda/{wisuda65}', function ($id) {
                     $query->where('skip', '=', null);
                     $query->where('status', '=', 'open');
                 })
-                ->paginate(20);
+                ->orderBy('noKursi')
+                 ->paginate(20);
         } else {
             $mahasiswa = mahasiswa64::with('antrian')
                 ->where('loket', 'like', '%' . $str[1] . '%')
@@ -69,6 +70,7 @@ Route::get('/wisuda/{wisuda65}', function ($id) {
                     $query->where('skip', '=', null);
                     $query->where('status', '=', 'open');
                 })
+                ->orderBy('noKursi')
                 ->paginate(20);
         }
         return view('wisuda64/v_daftar', ['data' => $get, 'wisudaa' => 'wisuda' . $str[0], 'mahasiswa' => $mahasiswa, 'thWisuda' => $str[0]]);
@@ -81,6 +83,7 @@ Route::get('/wisuda/{wisuda65}', function ($id) {
                 $query->where('skip', '=', null);
                 $query->where('status', '=', 'open');
             })
+            ->orderBy('noKursi')
             ->paginate(20);
         return view('wisuda64/v_daftar', ['data' => $get, 'wisudaa' => 'wisuda' . $str[0], 'mahasiswa' => $mahasiswa, 'thWisuda' =>  $str[0]]);
     }

@@ -173,6 +173,7 @@ class AntrianController extends Controller
             }
         } else {
             $save = new antrian64();
+            $save->thwisuda = $get->card;
             $save->nim = $request->nim_r;
             $save->bukti_pic = $filename;
             $save->status = "close";
@@ -264,7 +265,7 @@ class AntrianController extends Controller
     {
 
         $nim_data = [
-            2301879103
+            2402009752
 
 
         ];
@@ -287,6 +288,10 @@ class AntrianController extends Controller
 
     public function listWisuda(Request $request, $thWisuda)
     {
+        $butSkip = 'Skip';
+        if ($request->status == "skip") {
+            $butSkip = 'UnSkip';
+        }
         $dataa = mahasiswa64::with('antrian')->where('card', 'wisuda' . $thWisuda)
             ->where(function ($query) use ($request) {
                 if ($request->shift != "#" && $request->shift) {
@@ -306,13 +311,24 @@ class AntrianController extends Controller
                     $query->where('skip' , null);
                 }
             })
+            ->orderBy('noKursi')
             ->get();
 
         return DataTables::of($dataa)
-            ->addColumn('aksi', function ($data) {
-                return '<button style="width:5em;padding:10px" class="btn btn-danger m-1" id="but_skip" data-id="' . $data->nim . '">Skip</button>
-                        <button style="width:5em;padding:10px" class="btn btn-info m-1" id="but_wid" data-id="' . $data->nim . '">Detail</button>
-                ';
+            ->addColumn('aksi', function ($data) use($butSkip) {
+                if ($data->antrian[0]->status == 'close') {
+                    return '<button style="width:5em;padding:10px" class="btn btn-info m-1" id="but_wid" data-id="' . $data->nim . '">Detail</button>';
+                }
+                if ($data->antrian[0]->skip == '1' && $data->antrian[0]->status == 'open') {
+                    return '<button style="width:5em;padding:10px" class="btn btn-danger m-1" id="but_skip" data-status="UnSkip" data-id="' . $data->nim . '">UnSkip</button>
+                            <button style="width:5em;padding:10px" class="btn btn-info m-1" id="but_wid" data-id="' . $data->nim . '">Detail</button>
+                    ';
+                }
+                else{
+                    return '<button style="width:5em;padding:10px" class="btn btn-danger m-1" id="but_skip" data-status="'.$butSkip.'" data-id="' . $data->nim . '">'. $butSkip .'</button>
+                            <button style="width:5em;padding:10px" class="btn btn-info m-1" id="but_wid" data-id="' . $data->nim . '">Detail</button>
+                    ';
+                }
             })
             ->rawColumns(['aksi'])
             ->make(true);
